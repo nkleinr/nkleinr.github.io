@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Online Resume</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>My Online Résumé</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="projects.html">Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Welcome!</h2>
+      <p>Hello, my name is [Your Name]. This is my online résumé built for my CSI 2999 project. 
+      Here, you’ll find information about me, my skills, and the projects I’ve worked on.</p>
+      <img src="images/profile.jpg" alt="Profile picture" width="200">
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 [Your Name]</p>
+  </footer>
+</body>
+</html>
