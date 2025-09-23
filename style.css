@@ -1,40 +1,63 @@
+/* Reset */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  line-height: 1.6;
-  background-color: #f9f9f9;
-}
-
-header {
-  background: #333;
-  color: #fff;
-  padding: 10px 0;
-  text-align: center;
-}
-
-nav a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-main {
-  padding: 20px;
-}
-
-h1, h2, h3 {
+  font-family: Arial, sans-serif;
+  background-color: #f4f9f9;
   color: #333;
 }
 
-footer {
-  background: #333;
-  color: #fff;
+/* Header Navigation */
+header {
+  background-color: #004c6d; /* dark blue */
+  padding: 10px;
   text-align: center;
-  padding: 10px 0;
-  margin-top: 20px;
+}
+
+header nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #00a6a6; /* teal */
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+header nav a:hover {
+  background-color: #007d7d; /* darker teal */
+}
+
+/* Profile Section */
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #e1eff6;
+  border-bottom: 3px solid #004c6d;
+}
+
+.profile img {
+  width: 120px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile h1 {
+  margin: 0;
+  color: #004c6d;
+}
+
+/* Content Boxes */
+.content-box {
+  margin: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 2px solid #00a6a6;
+  border-radius: 10px;
+}
+
+.content-box h2 {
+  color: #004c6d;
+  margin-top: 0;
 }
