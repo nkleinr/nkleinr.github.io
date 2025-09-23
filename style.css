@@ -1,18 +1,15 @@
-/* Reset */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f9f9;
   color: #333;
 }
-
-/* Header Navigation */
 header {
   background-color: #004c6d; /* dark blue */
   padding: 10px;
   text-align: center;
 }
-
 header nav a {
   color: white;
   margin: 0 8px;
@@ -23,12 +20,9 @@ header nav a {
   border-radius: 6px;
   transition: 0.3s;
 }
-
 header nav a:hover {
   background-color: #007d7d; /* darker teal */
 }
-
-/* Profile Section */
 .profile {
   display: flex;
   align-items: center;
@@ -47,8 +41,6 @@ header nav a:hover {
   margin: 0;
   color: #004c6d;
 }
-
-/* Content Boxes */
 .content-box {
   margin: 20px;
   padding: 15px;
