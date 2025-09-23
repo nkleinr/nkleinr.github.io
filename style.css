@@ -15,7 +15,7 @@ header {
 
 header nav a {
   color: white;
-  margin: 0 15px;
+  margin: 0 8px;
   text-decoration: none;
   font-weight: bold;
   background-color: #00a6a6; /* teal */
@@ -60,4 +60,8 @@ header nav a:hover {
 .content-box h2 {
   color: #004c6d;
   margin-top: 0;
+}
+
+article {
+  margin-bottom: 15px;
 }
