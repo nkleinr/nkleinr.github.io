@@ -6,7 +6,7 @@ body {
   color: #333;
 }
 header {
-  background-color: #004c6d; /* dark blue */
+  background-color: #004c6d;
   padding: 10px;
   text-align: center;
 }
@@ -15,13 +15,13 @@ header nav a {
   margin: 0 8px;
   text-decoration: none;
   font-weight: bold;
-  background-color: #00a6a6; /* teal */
+  background-color: #00a6a6;
   padding: 6px 12px;
   border-radius: 6px;
   transition: 0.3s;
 }
 header nav a:hover {
-  background-color: #007d7d; /* darker teal */
+  background-color: #007d7d;
 }
 .profile {
   display: flex;
@@ -30,7 +30,6 @@ header nav a:hover {
   background-color: #e1eff6;
   border-bottom: 3px solid #004c6d;
 }
-
 .profile img {
   width: 120px;
   border-radius: 50%;
@@ -48,12 +47,10 @@ header nav a:hover {
   border: 2px solid #00a6a6;
   border-radius: 10px;
 }
-
 .content-box h2 {
   color: #004c6d;
   margin-top: 0;
 }
-
 article {
   margin-bottom: 15px;
 }
