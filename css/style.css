@@ -973,6 +973,42 @@ html, body {
   text-decoration: underline;
   cursor: pointer;
 }
+/* Featured community posts on index.html */
+.community-grid .post {
+  display: flex;
+  gap: 12px;
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 120px;
+}
+
+.community-grid .post-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.community-grid .post-body h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.community-grid .timestamp {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.community-grid .post-body p {
+  margin: 0;
+  color: #444;
+}
+
+
 
 
 
