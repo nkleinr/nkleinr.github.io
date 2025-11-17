@@ -1025,27 +1025,34 @@ html, body {
 }
 /* QUOTE SECTION */
 .quote-section {
-  text-align: center;
-  padding: 40px 20px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0 30px;
 }
 
 .quote-text {
   font-size: 26px;
   font-weight: 600;
-  color: #111827;
   max-width: 900px;
-  margin: 0 auto;
+  text-align: center;
   line-height: 1.5;
+  color: #111827;
 
-  /* Make it stand out */
+  /* standout card */
   background: #f3f4f6;
   padding: 25px 30px;
   border-radius: 12px;
   border-left: 6px solid #2563eb;
   border-right: 6px solid #2563eb;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  /* force it to center */
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
+
 
 
 
