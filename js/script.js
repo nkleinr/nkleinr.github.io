@@ -263,8 +263,12 @@ confirmDeleteBtn.addEventListener("click", () => {
   deleteIndex = null;
   confirmPopup.classList.add("hidden");
 });
-document.getElementById("quickAddWorkout").addEventListener("click", function (e) {
-  e.preventDefault();
+// ========================================================
+// AUTO-ADD WORKOUT WHEN URL HAS ?add=top
+// ========================================================
+function autoAddTopWorkout() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("add") !== "top") return;
 
   const list = getWorkouts();
 
@@ -283,8 +287,13 @@ document.getElementById("quickAddWorkout").addEventListener("click", function (e
   list.unshift(topWorkout);
   saveWorkouts(list);
   renderWorkouts();
-
   toast("Top Ranked Workout added!");
-});
+
+  // Prevent adding again if user reloads page
+  window.history.replaceState({}, "", "workout.html");
+}
+
+autoAddTopWorkout();
+
 
 
