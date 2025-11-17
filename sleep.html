@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unlock Fitness — Sleep Tracker</title>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+  <!-- LEFT SIDE -->
+  <div class="nav-left">
+    <a href="index.html" class="logo-link">
+      <img src="assets/logo.png" class="logo" alt="Unlock Fitness Logo">
+    </a>
+
+    <a href="index.html">Home</a>
+    <a href="food.html">Food Tracker</a>
+    <a href="workout.html">Fitness Tracker</a>
+    <a href="sleep.html">Sleep Tracker</a>
+    <a href="community.html">Community</a>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav-right">
+    <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+
+
+
+  <!-- PAGE TITLE -->
+  <section class="section title-section">
+    <h1>SLEEP TRACKER</h1>
+    <p class="sleep-muted centered">How did you sleep?</p>
+  </section>
+
+
+  <!-- MAIN SLEEP WRAP -->
+  <section class="section">
+    <div class="sleep-wrap">
+
+      <!-- TOP HEADER (Badge + Subtitle) -->
+      <div class="sleep-header">
+        <div class="sleep-badge">🛏️</div>
+        <div>
+          <h2 class="sleep-heading">UnlockFitness · Sleep Tracker</h2>
+          <p class="sleep-muted">Log your sleep each day and view your 7-day trend.</p>
+        </div>
+      </div>
+
+      <!-- GRID: FORM + CHART -->
+      <div class="sleep-grid">
+
+        <!-- LEFT PANEL — INPUT FORM -->
+        <div class="sleep-panel">
+          <label for="date">Date</label>
+          <input id="date" type="date" />
+
+          <label style="margin-top: 12px;">How many hours did you sleep?</label>
+
+          <div id="hourButtons" class="sleep-hours" role="radiogroup" aria-label="Hours slept"></div>
+
+          <div class="sleep-actions">
+            <button id="save" class="btn btn-primary">Save Entry</button>
+            <button id="clearAll" class="btn btn-ghost">Clear All</button>
+          </div>
+
+          <div id="feedback" class="sleep-feedback"></div>
+        </div>
+
+        <!-- RIGHT PANEL — CHART + STATS -->
+        <div class="sleep-panel">
+
+          <div class="sleep-panel-header">
+            <div class="sleep-panel-title">
+              <span>🌙</span>
+              <strong>Last 7 Days</strong>
+            </div>
+            <div class="sleep-muted">Target: 8 hours</div>
+          </div>
+
+          <div class="sleep-chart-wrap">
+            <svg id="chart" viewBox="0 0 600 260" preserveAspectRatio="none"
+                 aria-label="Sleep hours chart"></svg>
+          </div>
+
+          <div class="sleep-stat-grid">
+            <div class="sleep-card">
+              <div class="sleep-card-title">Avg Sleep</div>
+              <div id="avg" class="sleep-card-value">0 h</div>
+            </div>
+            <div class="sleep-card">
+              <div class="sleep-card-title">Consistency</div>
+              <div id="sd" class="sleep-card-value">0 h sd</div>
+            </div>
+            <div class="sleep-card">
+              <div class="sleep-card-title">Streak</div>
+              <div id="streak" class="sleep-card-value">0d</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- SLEEP HISTORY TABLE -->
+      <div class="sleep-panel sleep-history">
+
+        <div class="sleep-history-header">
+          <span>⭐</span>
+          <strong>History</strong>
+        </div>
+
+        <p id="empty" class="sleep-muted">No entries yet. Log your first day above.</p>
+
+        <div class="sleep-table-wrap">
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Hours Slept</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- COMMUNITY + AD SECTIONS (Matches other pages) -->
+  <section class="section community-section">
+    <h2 class="centered">Featured Community Posts</h2>
+
+    <div class="community-grid">
+      <div class="community-card">Featured Community Post</div>
+      <div class="community-card">Featured Community Post</div>
+      <div class="community-card">Featured Community Post</div>
+    </div>
+
+    <a href="#" class="view-all">View All Posts</a>
+  </section>
+
+  <section class="section workout-section">
+    <h3 class="centered">Top Ranked Workout: Get Started Today!</h3>
+  </section>
+
+  <section class="ad-banner">
+    <p>AD BANNER</p>
+  </section>
+
+
+  <!-- JavaScript -->
+  <script src="js/sleep.js"></script>
+
+</body>
+</html>
