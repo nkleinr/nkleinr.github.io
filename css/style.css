@@ -1007,23 +1007,37 @@ html, body {
   margin: 0;
   color: #444;
 }
-.video-full-width {
-  width: 100%;
-  max-width: 1400px;       /* Adjust if you want it bigger */
-  margin: 0 auto;          /* Centers it */
-  position: relative;
-  padding-bottom: 56.25%;  /* 16:9 aspect ratio */
+/* VIDEO SECTION */
+.video-section {
+  padding: 40px 20px;
 }
 
-.video-full-width iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 12px;
+.video-wrapper {
+  max-width: 1000px;      /* how wide you want the video area */
+  margin: 0 auto;         /* centers the wrapper on the page */
 }
+
+.video-wrapper iframe {
+  width: 100%;            /* fills the wrapper */
+  aspect-ratio: 16 / 9;   /* keeps proper video shape */
+  display: block;
+  border: 0;
+}
+
+/* QUOTE SECTION */
+.quote-section {
+  text-align: center;
+}
+
+.quote-text {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 20px auto;
+  max-width: 900px;
+  line-height: 1.6;
+}
+
+
 
 
 
