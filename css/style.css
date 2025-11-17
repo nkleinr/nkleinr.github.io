@@ -1024,6 +1024,19 @@ html, body {
   border: none;
   border-radius: 12px;
 }
+.quote-section {
+  text-align: center;
+}
+
+.quote-text {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 20px auto;
+  max-width: 900px;   /* keeps the quote readable */
+  line-height: 1.6;
+}
+
+
 
 
 
