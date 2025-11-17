@@ -1023,19 +1023,30 @@ html, body {
   display: block;
   border: 0;
 }
-
 /* QUOTE SECTION */
 .quote-section {
   text-align: center;
+  padding: 40px 20px 20px;
 }
 
 .quote-text {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 20px auto;
+  font-size: 26px;
+  font-weight: 600;
+  color: #111827;
   max-width: 900px;
-  line-height: 1.6;
+  margin: 0 auto;
+  line-height: 1.5;
+
+  /* Make it stand out */
+  background: #f3f4f6;
+  padding: 25px 30px;
+  border-radius: 12px;
+  border-left: 6px solid #2563eb;
+  border-right: 6px solid #2563eb;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
+
 
 
 
