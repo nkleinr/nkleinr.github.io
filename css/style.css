@@ -1055,16 +1055,19 @@ html, body {
   margin-right: auto;
   display: block;
 }
-/* OVERRIDE — HERO TITLE STYLE */
-.title-section h1 {
-  font-size: 60px !important;
+/* SUPER OVERRIDE — HERO TITLE */
+body.index-page .title-section h1 {
+  font-size: 64px !important;
   font-weight: 900 !important;
   text-align: center !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 2px !important;
   color: #0f172a !important;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.15) !important;
-  margin-top: 20px !important;
+  margin-top: 25px !important;
+  margin-bottom: 10px !important;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.18) !important;
 }
+
+
 
 
 
