@@ -25,13 +25,16 @@ function loadCommunityPosts() {
   if (!raw) return [];
   try { return JSON.parse(raw); } catch (e) { console.error(e); return []; }
 }
+
 function saveCommunityPosts(posts) {
   localStorage.setItem('communityPosts', JSON.stringify(posts));
 }
 
+// Seed sample posts only once
 function seedSamplePostsIfEmpty() {
   const existing = loadCommunityPosts();
   if (existing.length) return;
+
   const samples = [
     {
       id: 's1',
@@ -62,12 +65,14 @@ function seedSamplePostsIfEmpty() {
       text: 'Completed 5k run this morning. Felt great crossing the finish line.'
     }
   ];
+
   saveCommunityPosts(samples);
 }
 
 function renderCommunityPosts() {
   const container = document.getElementById('posts-list');
   if (!container) return;
+
   const posts = loadCommunityPosts();
   container.innerHTML = '';
 
@@ -79,6 +84,8 @@ function renderCommunityPosts() {
   posts.forEach(post => {
     const art = document.createElement('article');
     art.className = 'post';
+    art.id = post.id;   // ⭐ anchor for linking from index.html
+
     art.innerHTML = `
       <img class="post-avatar" src="${escapeHtml(post.avatar)}" alt="${escapeHtml(post.authorName)}">
       <div class="post-body">
@@ -87,18 +94,30 @@ function renderCommunityPosts() {
         <p>${escapeHtml(post.text)}</p>
       </div>
     `;
+
     container.appendChild(art);
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   seedSamplePostsIfEmpty();
   renderCommunityPosts();
 
-  // update if another tab changes the posts
-  window.addEventListener('storage', function (ev) {
-    if (ev.key === 'communityPosts') {
-      renderCommunityPosts();
+  // ⭐ Scroll to post if opened with #id (from index.html)
+  const anchor = window.location.hash.replace("#", "");
+  if (anchor) {
+    const el = document.getElementById(anchor);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.style.background = "#eef3ff"; // highlight
+        setTimeout(() => (el.style.background = ""), 1500);
+      }, 200);
     }
+  }
+
+  // Update if another tab modifies posts
+  window.addEventListener('storage', ev => {
+    if (ev.key === 'communityPosts') renderCommunityPosts();
   });
 });
