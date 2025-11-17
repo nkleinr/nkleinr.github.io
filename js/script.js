@@ -263,3 +263,28 @@ confirmDeleteBtn.addEventListener("click", () => {
   deleteIndex = null;
   confirmPopup.classList.add("hidden");
 });
+document.getElementById("quickAddWorkout").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const list = getWorkouts();
+
+  const topWorkout = {
+    id: Date.now(),
+    name: "Top Ranked Workout",
+    date: new Date().toISOString().split("T")[0],
+    muscleGroup: "Full Body",
+    exercises: [
+      { name: "Squats", sets: 4, reps: 10, weight: 135 },
+      { name: "Bench Press", sets: 4, reps: 8, weight: 95 },
+      { name: "Deadlift", sets: 3, reps: 5, weight: 155 }
+    ]
+  };
+
+  list.unshift(topWorkout);
+  saveWorkouts(list);
+  renderWorkouts();
+
+  toast("Top Ranked Workout added!");
+});
+
+
