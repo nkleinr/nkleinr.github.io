@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>UnlockFitness — Community</title>
+
+  <!-- Use global stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <!-- LEFT SIDE -->
+  <div class="nav-left">
+    <a href="index.html" class="logo-link">
+      <img src="assets/logo.png" class="logo" alt="Unlock Fitness Logo">
+    </a>
+
+    <a href="index.html">Home</a>
+    <a href="food.html">Food Tracker</a>
+    <a href="workout.html">Fitness Tracker</a>
+    <a href="sleep.html">Sleep Tracker</a>
+    <a href="community.html">Community</a>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav-right">
+    <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+
+  <main class="container">
+
+    <!-- Community feed main card -->
+    <section class="feed-card" aria-labelledby="community-heading">
+      <div class="feed-header">
+        <h1 id="community-heading">Community Feed</h1>
+        <div><a href="profile.html" class="share-link">Share a post</a></div>
+      </div>
+
+      <div id="posts-list" aria-live="polite"></div>
+    </section>
+
+  </main>
+
+  <!-- Community JS -->
+  <script src="js/community.js"></script>
+</body>
+</html>
