@@ -1067,66 +1067,42 @@ body.index-page .title-section h1 {
   text-shadow: 0 4px 12px rgba(0,0,0,0.18) !important;
 }
 /* AD PROMO BANNER — custom design */
+/* CENTER AD BANNER CONTENT */
 .promo-banner {
-  background: linear-gradient(90deg, #1e3a8a, #2563eb);
-  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  background: linear-gradient(90deg, #0d47a1, #2563eb);
   color: white;
-  margin-top: 40px;
 }
 
 .promo-content {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 25px;
+  gap: 20px;
 }
 
 .promo-text h2 {
   font-size: 32px;
   font-weight: 800;
-  margin: 0 0 10px;
+  margin: 0;
 }
 
 .promo-text p {
   font-size: 18px;
-  margin-bottom: 18px;
-}
-
-.promo-btn {
-  display: inline-block;
-  background: #fbbf24;
-  color: #111;
-  padding: 12px 22px;
-  font-weight: 700;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.2s ease-in-out;
-}
-
-.promo-btn:hover {
-  background: #fcd34d;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .promo-img {
-  width: 260px;
-  border-radius: 14px;
-  box-shadow: 0px 6px 20px rgba(0,0,0,0.25);
-  object-fit: cover;
+  max-width: 350px;
+  width: 100%;
 }
 
-@media (max-width: 800px) {
-  .promo-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .promo-img {
-    width: 80%;
-    max-width: 350px;
-  }
-}
 
 
 
