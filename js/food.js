@@ -13,12 +13,16 @@ function saveMeals() {
 
 function renderMeals() {
   const totalEl = document.querySelector(".food-subtext strong");
+  if (!totalEl) return;
+
   let total = 0;
 
   document.querySelectorAll(".meal-item").forEach(item => {
     const type = item.dataset.type;
     const details = item.querySelector(".meal-details");
     const data = meals[type];
+
+    if (!details) return;
 
     if (data) {
       details.textContent = `${data.name} – ${data.calories} kcal`;
@@ -34,52 +38,90 @@ function renderMeals() {
 }
 
 function setupAddButtons() {
+  const overlay = document.getElementById("eat");
+  const title = document.getElementById("eatTitle");
+  if (!overlay || !title) return;
+
   document.querySelectorAll(".meal-add-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault(); // stop jumping to #eat in URL
+
       const row = btn.closest(".meal-item");
-      currentMealType = row.dataset.type;
+      if (!row) return;
 
-      const title = document.getElementById("eatTitle");
-      title.textContent = `Did you eat ${currentMealType}?`;
+      currentMealType = row.dataset.type || "meal";
 
-      window.location.hash = "eat";
+      // "Did you eat Breakfast today?"
+      const pretty =
+        currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1);
+      title.textContent = `Did you eat ${pretty} today?`;
+
+      // show popup
+      overlay.classList.add("show");
     });
   });
 }
 
 function setupPopupButtons() {
-  document.querySelector(".food-pill.ghost").addEventListener("click", e => {
-    e.preventDefault();
-    window.location.hash = "";
-  });
+  const overlay = document.getElementById("eat");
+  if (!overlay) return;
 
-  document.querySelector(".food-pill.primary").addEventListener("click", e => {
-    e.preventDefault();
+  const yesBtn = document.querySelector(".food-pill.ghost");
+  const addBtn = document.querySelector(".food-pill.primary");
+  const closeEls = document.querySelectorAll(".overlay-close, .close-modal");
 
-    const existing = meals[currentMealType] || {};
+  // "Yes, I did" just closes the popup
+  if (yesBtn) {
+    yesBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      overlay.classList.remove("show");
+    });
+  }
 
-    const name = prompt("What did you eat?", existing.name || "");
-    if (!name) return;
+  // "Add a meal" -> prompts for name + calories
+  if (addBtn) {
+    addBtn.addEventListener("click", (e) => {
+      e.preventDefault();
 
-    const calories = parseInt(prompt("Calories?", existing.calories || ""), 10);
-    if (isNaN(calories)) {
-      return alert("Invalid calories");
-    }
+      if (!currentMealType) currentMealType = "meal";
+      const existing = meals[currentMealType] || {};
 
-    meals[currentMealType] = { name, calories };
-    saveMeals();
-    renderMeals();
-    window.location.hash = "";
+      const name = prompt("What did you eat?", existing.name || "");
+      if (!name) return;
+
+      const calStr = prompt("Calories?", existing.calories ?? "");
+      const calories = parseInt(calStr, 10);
+      if (isNaN(calories) || calories <= 0) {
+        alert("Please enter a valid number of calories.");
+        return;
+      }
+
+      meals[currentMealType] = { name, calories };
+      saveMeals();
+      renderMeals();
+
+      overlay.classList.remove("show");
+    });
+  }
+
+  // X button and click-off area also close popup
+  closeEls.forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      overlay.classList.remove("show");
+    });
   });
 }
 
 function setupDelete() {
-  document.addEventListener("click", e => {
-    if (!e.target.classList.contains("meal-details")) return;
+  document.addEventListener("click", (e) => {
+    const details = e.target;
+    if (!details.classList.contains("meal-details")) return;
 
-    const row = e.target.closest(".meal-item");
+    const row = details.closest(".meal-item");
+    if (!row) return;
+
     const type = row.dataset.type;
-
     if (!meals[type]) return;
 
     if (confirm("Delete this meal?")) {
@@ -90,6 +132,7 @@ function setupDelete() {
   });
 }
 
+// INIT
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
