@@ -43,6 +43,7 @@ function setupAddButtons() {
       title.textContent =
         `Did you eat ${currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1)} today?`;
 
+      // Force popup open
       window.location.hash = "eat";
     });
   });
@@ -62,17 +63,20 @@ function setupPopupButtons() {
     const name = prompt("What did you eat?", existing.name || "");
     if (!name) return;
 
-    const cals = parseInt(prompt("Calories:", existing.calories || ""), 10);
-    if (isNaN(cals)) return alert("Invalid calories.");
+    const calories = parseInt(
+      prompt("Calories?", existing.calories || ""),
+      10
+    );
 
-    meals[currentMealType] = { name, calories: cals };
+    if (isNaN(calories)) return alert("Invalid calories");
+
+    meals[currentMealType] = { name, calories };
     saveMeals();
     renderMeals();
     window.location.hash = "";
   });
 }
 
-// Delete when clicking on the description
 function setupDelete() {
   document.addEventListener("click", e => {
     if (!e.target.classList.contains("meal-details")) return;
@@ -90,7 +94,7 @@ function setupDelete() {
   });
 }
 
-// Init
+// INIT
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
