@@ -10,25 +10,12 @@ function getMealTypeFromLabel(labelText) {
   return "meal";
 }
 
-// Find the .meal div for a given type
 function findMealRow(type) {
-  const rows = document.querySelectorAll(".meal");
-  for (const row of rows) {
-    const label = row.querySelector(".label");
-    if (!label) continue;
-    const text = label.textContent.toLowerCase();
-    if (type === "breakfast" && text.includes("breakfast")) return row;
-    if (type === "lunch" && text.includes("lunch")) return row;
-    if (type === "dinner" && text.includes("dinner")) return row;
-  }
-  return null;
+  return document.querySelector(`.meal[data-type="${type}"]`);
 }
 
-// Update Total Calories text and meal descriptions
 function renderMeals() {
-  meals = meals || {};
-
-  ["breakfast", "lunch", "dinner"].forEach((type) => {
+  ["breakfast", "lunch", "dinner"].forEach(type => {
     const row = findMealRow(type);
     if (!row) return;
 
@@ -49,132 +36,82 @@ function renderMeals() {
     }
   });
 
-  // Calculate total calories
-  const total = Object.values(meals).reduce((sum, m) => {
-    if (!m) return sum;
-    return sum + (m.calories || 0);
-  }, 0);
+  const total = Object.values(meals).reduce((sum, m) => sum + (m?.calories || 0), 0);
 
-  const totalStrong = document.querySelector(".today-pill strong");
+  const totalStrong = document.querySelector(".food-subtext strong");
   if (totalStrong) {
     totalStrong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
   }
 }
 
-// Save to localStorage
 function saveMeals() {
   localStorage.setItem("uf_meals", JSON.stringify(meals));
 }
 
-// Load from localStorage
 function loadMeals() {
   const saved = localStorage.getItem("uf_meals");
-  if (!saved) return;
-  try {
-    meals = JSON.parse(saved) || {};
-  } catch (e) {
-    meals = {};
-  }
+  meals = saved ? JSON.parse(saved) : {};
 }
 
-// Handle clicking the "+" buttons (Breakfast / Lunch / Dinner)
 function setupAddButtons() {
-  const addButtons = document.querySelectorAll(".add");
-  const title = document.getElementById("eatTitle");
-
-  addButtons.forEach((btn) => {
+  document.querySelectorAll(".add").forEach(btn => {
     btn.addEventListener("click", () => {
-      const labelText =
-        btn.getAttribute("aria-label") || btn.textContent || "Add Meal";
-      currentMealType = getMealTypeFromLabel(labelText);
+      const label = btn.getAttribute("aria-label");
+      currentMealType = getMealTypeFromLabel(label);
 
-      if (title && currentMealType !== "meal") {
-        const niceName =
-          currentMealType.charAt(0).toUpperCase() +
-          currentMealType.slice(1);
-        title.textContent = `Did you eat ${niceName} today?`;
-      } else if (title) {
-        title.textContent = "Did you eat today?";
-      }
-     
+      const title = document.getElementById("eatTitle");
+      title.textContent = `Did you eat ${currentMealType}?`;
+
+      window.location.hash = "eat";
     });
   });
 }
 
-// Buttons inside the popup
 function setupPopupButtons() {
-  const yesButton = document.querySelector(".pill.pill-ghost");
-  const addMealButton = document.querySelector(".pill.pill-primary");
+  document.querySelector(".pill-ghost").addEventListener("click", e => {
+    e.preventDefault();
+    window.location.hash = "";
+  });
 
-  // "Yes, I did" 
-  if (yesButton) {
-    yesButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.hash = ""; // close overlay
-    });
-  }
+  document.querySelector(".pill-primary").addEventListener("click", e => {
+    e.preventDefault();
 
-  // "Add a meal"
-  if (addMealButton) {
-    addMealButton.addEventListener("click", (e) => {
-      e.preventDefault();
+    const existing = meals[currentMealType] || {};
 
-      if (!currentMealType) currentMealType = "meal";
+    const name = prompt("What did you eat?", existing.name || "");
+    if (!name) return;
 
-      const prettyName = (currentMealType === "meal" ? "this meal" : currentMealType);
+    const calories = parseInt(prompt("Calories?", existing.calories || ""), 10);
+    if (isNaN(calories) || calories <= 0) {
+      alert("Invalid calories");
+      return;
+    }
 
-      const existing = meals[currentMealType] || {};
-
-      const name = prompt(
-        `What did you eat for ${prettyName}?`,
-        existing.name || ""
-      );
-      if (!name) return;
-
-      const calStr = prompt(
-        "How many calories (kcal)?",
-        existing.calories != null ? existing.calories : ""
-      );
-      const calories = parseInt(calStr, 10);
-      if (isNaN(calories) || calories <= 0) {
-        alert("Please enter a valid number of calories.");
-        return;
-      }
-
-      meals[currentMealType] = { name, calories };
-      saveMeals();
-      renderMeals();
-
-      window.location.hash = ""; 
-    });
-  }
-}
-
-// Delete a meal when clicking on the details text
-function setupDeleteOnDetails() {
-  document.addEventListener("click", (e) => {
-    const details = e.target;
-    if (!details.classList.contains("details")) return;
-
-    const row = details.closest(".meal");
-    if (!row) return;
-
-    const label = row.querySelector(".label");
-    if (!label) return;
-
-    const type = getMealTypeFromLabel(label.textContent);
-    if (!meals[type]) return;
-
-    const ok = confirm("Do you want to delete this meal?");
-    if (!ok) return;
-
-    delete meals[type];
+    meals[currentMealType] = { name, calories };
     saveMeals();
     renderMeals();
+
+    window.location.hash = "";
   });
 }
 
-// Initialize when DOM is ready
+function setupDeleteOnDetails() {
+  document.addEventListener("click", e => {
+    if (!e.target.classList.contains("details")) return;
+
+    const row = e.target.closest(".meal");
+    const type = row.dataset.type;
+
+    if (!meals[type]) return;
+
+    if (confirm("Delete this meal?")) {
+      delete meals[type];
+      saveMeals();
+      renderMeals();
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
