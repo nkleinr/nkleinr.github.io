@@ -1107,3 +1107,68 @@ body.index-page .title-section h1 {
   max-width: 350px;
   width: 100%;
 }
+/* ===============================
+   FOOD TRACKER POPUP FIX
+   Makes the #eat popup show when URL = #eat
+================================*/
+
+#eat.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+#eat:target {
+  display: flex !important;
+}
+
+#eat .modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 360px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+}
+
+#eat .close-modal {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 26px;
+  text-decoration: none;
+  color: #333;
+}
+
+.pill {
+  display: block;
+  padding: 14px;
+  margin-top: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pill-ghost {
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+  color: #444;
+}
+
+.pill-primary {
+  background: #2563eb;
+  color: #fff;
+}
+
+.pill-primary:hover {
+  background: #1d4ed8;
+}
+
+
