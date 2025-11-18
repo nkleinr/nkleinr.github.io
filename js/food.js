@@ -1,7 +1,13 @@
+// =======================================================
+// Unlock Fitness — FOOD TRACKER (MINIMUM CHANGE VERSION)
+// Works with your global CSS + your teammate's logic
+// =======================================================
+
 const DAILY_GOAL = 2000;
 let meals = {};
 let currentMealType = null;
 
+// Convert label ("Add Breakfast") → "breakfast"
 function getMealTypeFromLabel(labelText) {
   const lower = labelText.toLowerCase();
   if (lower.includes("breakfast")) return "breakfast";
@@ -10,12 +16,13 @@ function getMealTypeFromLabel(labelText) {
   return "meal";
 }
 
-// Find the .meal div for a given type
+// Match your project’s .meal rows
 function findMealRow(type) {
   const rows = document.querySelectorAll(".meal");
   for (const row of rows) {
     const label = row.querySelector(".label");
     if (!label) continue;
+
     const text = label.textContent.toLowerCase();
     if (type === "breakfast" && text.includes("breakfast")) return row;
     if (type === "lunch" && text.includes("lunch")) return row;
@@ -24,7 +31,7 @@ function findMealRow(type) {
   return null;
 }
 
-// Update Total Calories text and meal descriptions
+// Update calories + meal descriptions
 function renderMeals() {
   meals = meals || {};
 
@@ -61,23 +68,23 @@ function renderMeals() {
   }
 }
 
-// Save to localStorage
+// Save & load meals
 function saveMeals() {
   localStorage.setItem("uf_meals", JSON.stringify(meals));
 }
 
-// Load from localStorage
 function loadMeals() {
   const saved = localStorage.getItem("uf_meals");
   if (!saved) return;
+
   try {
     meals = JSON.parse(saved) || {};
-  } catch (e) {
+  } catch {
     meals = {};
   }
 }
 
-// Handle clicking the "+" buttons (Breakfast / Lunch / Dinner)
+// Handle Add (+) buttons
 function setupAddButtons() {
   const addButtons = document.querySelectorAll(".add");
   const title = document.getElementById("eatTitle");
@@ -86,42 +93,42 @@ function setupAddButtons() {
     btn.addEventListener("click", () => {
       const labelText =
         btn.getAttribute("aria-label") || btn.textContent || "Add Meal";
+
       currentMealType = getMealTypeFromLabel(labelText);
 
       if (title && currentMealType !== "meal") {
         const niceName =
-          currentMealType.charAt(0).toUpperCase() +
-          currentMealType.slice(1);
+          currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1);
         title.textContent = `Did you eat ${niceName} today?`;
       } else if (title) {
         title.textContent = "Did you eat today?";
       }
-     
     });
   });
 }
 
-// Buttons inside the popup
+// Popup buttons
 function setupPopupButtons() {
-  const yesButton = document.querySelector(".pill.pill-ghost");
-  const addMealButton = document.querySelector(".pill.pill-primary");
+  const yesButton = document.querySelector(".food-pill.ghost");
+  const addMealButton = document.querySelector(".food-pill.primary");
 
-  // "Yes, I did" 
+  // Yes I did
   if (yesButton) {
     yesButton.addEventListener("click", (e) => {
       e.preventDefault();
-      window.location.hash = ""; // close overlay
+      window.location.hash = "";
     });
   }
 
-  // "Add a meal"
+  // Add a meal (prompt)
   if (addMealButton) {
     addMealButton.addEventListener("click", (e) => {
       e.preventDefault();
 
       if (!currentMealType) currentMealType = "meal";
 
-      const prettyName = (currentMealType === "meal" ? "this meal" : currentMealType);
+      const prettyName =
+        currentMealType === "meal" ? "this meal" : currentMealType;
 
       const existing = meals[currentMealType] || {};
 
@@ -136,6 +143,7 @@ function setupPopupButtons() {
         existing.calories != null ? existing.calories : ""
       );
       const calories = parseInt(calStr, 10);
+
       if (isNaN(calories) || calories <= 0) {
         alert("Please enter a valid number of calories.");
         return;
@@ -145,12 +153,12 @@ function setupPopupButtons() {
       saveMeals();
       renderMeals();
 
-      window.location.hash = ""; 
+      window.location.hash = "";
     });
   }
 }
 
-// Delete a meal when clicking on the details text
+// Click details → delete meal
 function setupDeleteOnDetails() {
   document.addEventListener("click", (e) => {
     const details = e.target;
@@ -174,7 +182,7 @@ function setupDeleteOnDetails() {
   });
 }
 
-// Initialize when DOM is ready
+// Initialize
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
@@ -182,4 +190,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPopupButtons();
   setupDeleteOnDetails();
 });
-
