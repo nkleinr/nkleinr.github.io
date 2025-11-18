@@ -5,12 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unlock Fitness – Food Tracker</title>
 
-  <!-- Main site CSS -->
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Google Fonts (same as teammate’s file, safe to keep) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -37,7 +33,7 @@
   </nav>
 
 
-  <!-- MAIN FOOD TRACKER CARD -->
+  <!-- MAIN FOOD TRACKER -->
   <main class="food-wrap">
     <section class="food-card">
 
@@ -49,41 +45,42 @@
         </div>
       </div>
 
-<div class="meal-list">
+      <!-- THE PART THAT WAS WRONG (now fixed) -->
+      <div class="meal-list">
 
-  <div class="meal-item meal" data-type="breakfast">
-    <div class="meal-icon">🍳</div>
-    <div class="meal-label">Add Breakfast</div>
-    <a href="#eat" class="meal-add-btn" aria-label="Add Breakfast">+</a>
-    <div class="meal-details">No meal logged yet.</div>
-  </div>
+        <div class="meal-item" data-type="breakfast">
+          <div class="meal-icon">🍳</div>
+          <div class="meal-label">Breakfast</div>
+          <a href="#eat" class="meal-add-btn">+</a>
+          <div class="meal-details">No meal logged yet.</div>
+        </div>
 
-  <div class="meal-item meal" data-type="lunch">
-    <div class="meal-icon">🍗</div>
-    <div class="meal-label">Add Lunch</div>
-    <a href="#eat" class="meal-add-btn" aria-label="Add Lunch">+</a>
-    <div class="meal-details">No meal logged yet.</div>
-  </div>
+        <div class="meal-item" data-type="lunch">
+          <div class="meal-icon">🍗</div>
+          <div class="meal-label">Lunch</div>
+          <a href="#eat" class="meal-add-btn">+</a>
+          <div class="meal-details">No meal logged yet.</div>
+        </div>
 
-  <div class="meal-item meal" data-type="dinner">
-    <div class="meal-icon">🥗</div>
-    <div class="meal-label">Add Dinner</div>
-    <a href="#eat" class="meal-add-btn" aria-label="Add Dinner">+</a>
-    <div class="meal-details">No meal logged yet.</div>
-  </div>
+        <div class="meal-item" data-type="dinner">
+          <div class="meal-icon">🥗</div>
+          <div class="meal-label">Dinner</div>
+          <a href="#eat" class="meal-add-btn">+</a>
+          <div class="meal-details">No meal logged yet.</div>
+        </div>
 
-</div>
+      </div>
 
     </section>
   </main>
 
 
-  <!-- POPUP (OVERLAY) -->
+  <!-- POPUP -->
   <div id="eat" class="overlay">
-    <a href="#" class="overlay-close" aria-label="Close"></a>
+    <a href="#" class="overlay-close"></a>
 
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
-      <a href="#" class="close-modal" aria-label="Close">×</a>
+    <div class="modal" role="dialog">
+      <a href="#" class="close-modal">×</a>
 
       <h2 id="eatTitle">Did you eat today?</h2>
 
@@ -93,21 +90,13 @@
   </div>
 
 
-  <!-- =============================== -->
-  <!-- FEATURED COMMUNITY POSTS        -->
-  <!-- =============================== -->
+  <!-- COMMUNITY + WORKOUT + AD SECTIONS -->
   <section class="section community-section">
     <h3 class="centered">Featured Community Posts</h3>
-
     <div id="featured-posts" class="community-grid"></div>
-
     <a href="community.html" class="view-all">View All Posts</a>
   </section>
 
-
-  <!-- =============================== -->
-  <!-- TOP RANKED WORKOUT LINK         -->
-  <!-- =============================== -->
   <section class="section workout-section">
     <h3 class="centered">
       <a href="workout.html?add=top" class="quick-add-link">
@@ -116,10 +105,6 @@
     </h3>
   </section>
 
-
-  <!-- =============================== -->
-  <!-- AD BANNER                       -->
-  <!-- =============================== -->
   <section class="ad-banner promo-banner">
     <div class="promo-content">
       <div class="promo-text">
@@ -130,14 +115,9 @@
     </div>
   </section>
 
-
-  <!-- Scripts -->
+  <!-- SCRIPTS -->
   <script src="js/food.js"></script>
   <script src="js/index-community.js"></script>
 
 </body>
 </html>
-
-
-
-
