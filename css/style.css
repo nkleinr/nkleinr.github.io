@@ -246,6 +246,11 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
 }
+/* Show overlay when JS adds .show */
+.overlay.show {
+  display: flex !important;
+}
+
 
 .modal-card {
   position: relative;
@@ -1261,6 +1266,7 @@ body.index-page .title-section h1 {
   color: #444;
   text-decoration: none;
 }
+
 
 
 
