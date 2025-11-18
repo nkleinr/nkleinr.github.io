@@ -1,134 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unlock Fitness — Food Tracker</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock Fitness – Food Tracker</title>
+
+  <!-- Use global project stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-<nav class="navbar">
-  <!-- LEFT SIDE -->
-  <div class="nav-left">
-    <a href="index.html" class="logo-link">
-      <img src="assets/logo.png" class="logo" alt="Unlock Fitness Logo">
-    </a>
+  <!-- Replace old nav with project nav, MINIMUM CHANGE -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="logo-link">
+        <img src="assets/logo.png" class="logo" alt="Unlock Fitness Logo">
+      </a>
 
-    <a href="index.html">Home</a>
-    <a href="food.html">Food Tracker</a>
-    <a href="workout.html">Fitness Tracker</a>
-    <a href="sleep.html">Sleep Tracker</a>
-    <a href="community.html">Community</a>
-  </div>
+      <a href="index.html">Home</a>
+      <a href="food.html" class="active">Food Tracker</a>
+      <a href="workout.html">Fitness Tracker</a>
+      <a href="sleep.html">Sleep Tracker</a>
+      <a href="community.html">Community</a>
+    </div>
 
-  <!-- RIGHT SIDE -->
-  <div class="nav-right">
-    <a href="login.html">Login</a>
-    <a href="signup.html">Signup</a>
-    <a href="profile.html">Profile</a>
-  </div>
-</nav>
+    <div class="nav-right">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
 
-
-
-  <!-- PAGE TITLE -->
-  <section class="section title-section">
+  <!-- MAIN CONTENT (unchanged except CSS class names removed) -->
+  <main class="food-wrap">
+    <section class="food-card">
       <h1>FOOD TRACKER</h1>
-  </section>
 
-  <section class="section">
-    <div class="food-wrap">
-
-      <div class="food-card">
-        <div class="food-header">
-          <div class="today-title">Today's Meals</div>
-          <small class="food-subtext">
-            🔥 Total Calories:<br>
-            <strong>1500 kcal / 2000 kcal</strong>
-          </small>
-        </div>
-
-        <!-- 3 Meal Buttons -->
-        <div class="meal-list">
-
-          <div class="meal-item">
-            <div class="meal-icon">🍳</div>
-            <div class="meal-label">Add Breakfast</div>
-            <a class="meal-add-btn" href="#eat" aria-label="Add Breakfast">+</a>
-          </div>
-
-          <div class="meal-item">
-            <div class="meal-icon">🍗</div>
-            <div class="meal-label">Add Lunch</div>
-            <a class="meal-add-btn" href="#eat" aria-label="Add Lunch">+</a>
-          </div>
-
-          <div class="meal-item">
-            <div class="meal-icon">🥗</div>
-            <div class="meal-label">Add Dinner</div>
-            <a class="meal-add-btn" href="#eat" aria-label="Add Dinner">+</a>
-          </div>
-
-        </div>
+      <div class="today-pill">
+        <div class="tm-title">Today’s Meals</div>
+        <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
       </div>
 
-    </div>
-  </section>
+      <div class="meal-list">
 
-  <!-- FEATURED COMMUNITY POSTS -->
-<section class="section community-section">
-    <h3 class="centered">Featured Community Posts</h3>
-    <div id="featured-posts" class="community-grid"></div>
-    <a href="community.html" class="view-all">View All Posts</a>
-</section>
+        <div class="meal">
+          <div class="meal-icon">🍳</div>
+          <div class="label">Add Breakfast</div>
+          <a class="add" href="#eat" aria-label="Add Breakfast">+</a>
+        </div>
 
-<!-- TOP RANKED WORKOUT -->
-<section class="section workout-section">
-  <h3 class="centered">
-    <a href="workout.html?add=top" class="quick-add-link">
-      Top Ranked Workout: Click here to get Started Today!
-    </a>
-  </h3>
-</section>
+        <div class="meal">
+          <div class="meal-icon">🍗</div>
+          <div class="label">Add Lunch</div>
+          <a class="add" href="#eat" aria-label="Add Lunch">+</a>
+        </div>
 
-<!-- AD BANNER -->
-<section class="ad-banner promo-banner">
-  <div class="promo-content">
-    <div class="promo-text">
-      <h2>🔥 Buy generic protein powder!</h2>
-      <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
-    </div>
-    <img src="assets/gym-promo.png" alt="SAMPLE AD" class="promo-img">
-  </div>
-</section>
-  
-  <!-- POPUP -->
+        <div class="meal">
+          <div class="meal-icon">🥗</div>
+          <div class="label">Add Dinner</div>
+          <a class="add" href="#eat" aria-label="Add Dinner">+</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- POPUP OVERLAY -->
   <div id="eat" class="overlay">
     <a href="#" class="overlay-close" aria-label="Close"></a>
 
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
+      <a href="#" class="close-modal" aria-label="Close">×</a>
 
-      <a href="#" class="icon-btn close-modal" aria-label="Close">✕</a>
+      <h2 id="eatTitle">Did you eat today?</h2>
 
-      <h2 id="eatTitle" style="margin-bottom:20px;">Did you eat today?</h2>
-
-      <a class="food-pill ghost" href="#">
-        <span>Yes, I did</span>
-      </a>
-
-      <a class="food-pill primary" href="#">
-        <span class="food-icon">🍎</span>
-        <span>Add a meal</span>
-      </a>
-
+      <a class="food-pill ghost" href="#"><span>Yes, I did</span></a>
+      <a class="food-pill primary" href="#"><span class="apple">🍎</span><span>Add a meal</span></a>
     </div>
   </div>
-<script src="js/index-community.js"></script>
+
+  <!-- FOOD JS -->
   <script src="js/food.js"></script>
 </body>
 </html>
-
-
-
