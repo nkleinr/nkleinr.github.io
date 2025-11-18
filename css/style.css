@@ -1107,12 +1107,87 @@ body.index-page .title-section h1 {
   max-width: 350px;
   width: 100%;
 }
-/* ===============================
-   FOOD TRACKER POPUP FIX
-   Makes the #eat popup show when URL = #eat
-================================*/
+/* ============================
+   FOOD TRACKER (unique classes)
+============================ */
 
-#eat.overlay {
+.ft-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.ft-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.ft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ft-calories {
+  color: #6b7280;
+  text-align: right;
+}
+
+.ft-meal-list {
+  margin-top: 20px;
+  display: grid;
+  gap: 15px;
+}
+
+.ft-meal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  flex-wrap: wrap;
+}
+
+.ft-icon {
+  font-size: 28px;
+}
+
+.ft-label {
+  font-weight: 600;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.ft-add-btn {
+  background: #2563eb;
+  color: white;
+  padding: 0 14px 3px;
+  border-radius: 50%;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.ft-add-btn:hover {
+  background: #1d4ed8;
+}
+
+.ft-details {
+  width: 100%;
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+
+
+/* ============================
+   POPUP (unique)
+============================ */
+
+.ft-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.45);
@@ -1122,53 +1197,59 @@ body.index-page .title-section h1 {
   z-index: 3000;
 }
 
-#eat:target {
-  display: flex !important;
+#ft-popup:target {
+  display: flex;
 }
 
-#eat .modal {
-  background: #ffffff;
-  border-radius: 16px;
+.ft-close-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.ft-modal {
+  background: white;
   padding: 30px;
+  border-radius: 16px;
   max-width: 360px;
   width: 90%;
   position: relative;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
 }
 
-#eat .close-modal {
+.ft-close-x {
   position: absolute;
   top: 12px;
   right: 12px;
-  font-size: 26px;
+  font-size: 22px;
   text-decoration: none;
+  color: #555;
+}
+
+.ft-btn {
+  display: block;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ft-btn-ghost {
+  background: #f3f4f6;
+  border: 1px solid var(--border);
   color: #333;
 }
 
-.pill {
-  display: block;
-  padding: 14px;
-  margin-top: 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  text-align: center;
-}
-
-.pill-ghost {
-  background: #f3f4f6;
-  border: 1px solid var(--border);
-  color: #444;
-}
-
-.pill-primary {
+.ft-btn-primary {
   background: #2563eb;
-  color: #fff;
+  color: white;
 }
 
-.pill-primary:hover {
+.ft-btn-primary:hover {
   background: #1d4ed8;
 }
+
+
 
 
