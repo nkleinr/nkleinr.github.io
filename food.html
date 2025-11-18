@@ -1,126 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Unlock Fitness – Food Tracker</title>
-
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="index.html" class="logo-link">
-        <img src="assets/logo.png" class="logo" alt="Unlock Fitness Logo">
-      </a>
-
-      <a href="index.html">Home</a>
-      <a href="food.html" class="active">Food Tracker</a>
-      <a href="workout.html">Fitness Tracker</a>
-      <a href="sleep.html">Sleep Tracker</a>
-      <a href="community.html">Community</a>
-    </div>
-
-    <div class="nav-right">
-      <a href="login.html">Login</a>
-      <a href="signup.html">Signup</a>
-      <a href="profile.html">Profile</a>
-    </div>
+  <nav class="nav">
+    <div class="brand"><span class="lock">🔒</span> UNLOCK FITNESS</div>
+    <a class="active" href="#eat">FOOD TRACKER</a>
   </nav>
 
-
-  <!-- MAIN FOOD TRACKER CARD -->
-  <main class="food-wrap">
-    <section class="food-card">
-
+  <main class="wrap">
+    <section class="card">
       <h1>FOOD TRACKER</h1>
 
       <div class="today-pill">
         <div class="tm-title">Today’s Meals</div>
-        <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
+        <small>🔥 Total Calories:<br><strong>1500 Kcal / 2000 kcal</strong></small>
       </div>
 
       <div class="meal-list">
-
-        <!-- BREAKFAST -->
         <div class="meal">
           <div class="icon">🍳</div>
           <div class="label">Add Breakfast</div>
           <a class="add" href="#eat" aria-label="Add Breakfast">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
 
-        <!-- LUNCH -->
         <div class="meal">
           <div class="icon">🍗</div>
           <div class="label">Add Lunch</div>
           <a class="add" href="#eat" aria-label="Add Lunch">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
 
-        <!-- DINNER -->
         <div class="meal">
           <div class="icon">🥗</div>
           <div class="label">Add Dinner</div>
           <a class="add" href="#eat" aria-label="Add Dinner">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
-
       </div>
     </section>
   </main>
 
-
-  <!-- POPUP / OVERLAY -->
+  <!-- POPUP -->
   <div id="eat" class="overlay">
     <a href="#" class="overlay-close" aria-label="Close"></a>
-
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
-      <a href="#" class="close-modal" aria-label="Close">×</a>
-
+      <a href="#" class="close" aria-label="Close">×</a>
       <h2 id="eatTitle">Did you eat today?</h2>
 
-      <a href="#" class="pill pill-ghost">Yes, I did</a>
-      <a href="#" class="pill pill-primary"><span class="apple">🍎</span> Add a meal</a>
+      <a class="pill pill-ghost" href="#"><span>Yes, I did</span></a>
+      <a class="pill pill-primary" href="#"><span class="apple">🍎</span><span>Add a meal</span></a>
     </div>
   </div>
-
-
-  <!-- COMMUNITY POSTS -->
-  <section class="section community-section">
-    <h3 class="centered">Featured Community Posts</h3>
-    <div id="featured-posts" class="community-grid"></div>
-    <a href="community.html" class="view-all">View All Posts</a>
-  </section>
-
-
-  <!-- TOP RANKED WORKOUT -->
-  <section class="section workout-section">
-    <h3 class="centered">
-      <a href="workout.html?add=top" class="quick-add-link">
-        Top Ranked Workout: Click here to get Started Today!
-      </a>
-    </h3>
-  </section>
-
-  <!-- AD BANNER -->
-  <section class="ad-banner promo-banner">
-    <div class="promo-content">
-      <div class="promo-text">
-        <h2>🔥 Buy generic protein powder!</h2>
-        <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
-        <a href="sample.html" class="promo-btn">BUY HERE</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- JS -->
-  <script src="js/food.js"></script>
-  <script src="js/index-community.js"></script>
-
 </body>
 </html>
+
