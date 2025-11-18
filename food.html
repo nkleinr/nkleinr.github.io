@@ -5,10 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unlock Fitness – Food Tracker</title>
 
+  <!-- Main site CSS -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap"
+    rel="stylesheet">
 </head>
 
-<body>
+<body class="food-page">
 
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -31,73 +36,64 @@
     </div>
   </nav>
 
-
-  <!-- MAIN FOOD TRACKER CARD -->
+  <!-- MAIN FOOD TRACKER -->
   <main class="food-wrap">
     <section class="food-card">
 
-      <h1>FOOD TRACKER</h1>
-
-      <div class="today-pill">
-        <div class="tm-title">Today’s Meals</div>
-        <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
+      <div class="food-header">
+        <h1>FOOD TRACKER</h1>
+        <div class="food-subtext">
+          <span>Today’s Calories:</span><br>
+          <strong>0 Kcal / 2000 kcal</strong>
+        </div>
       </div>
 
       <div class="meal-list">
 
-        <!-- BREAKFAST -->
-        <div class="meal">
+        <div class="meal" data-type="breakfast">
           <div class="icon">🍳</div>
           <div class="label">Add Breakfast</div>
           <a class="add" href="#eat" aria-label="Add Breakfast">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
 
-        <!-- LUNCH -->
-        <div class="meal">
+        <div class="meal" data-type="lunch">
           <div class="icon">🍗</div>
           <div class="label">Add Lunch</div>
           <a class="add" href="#eat" aria-label="Add Lunch">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
 
-        <!-- DINNER -->
-        <div class="meal">
+        <div class="meal" data-type="dinner">
           <div class="icon">🥗</div>
           <div class="label">Add Dinner</div>
           <a class="add" href="#eat" aria-label="Add Dinner">+</a>
-          <div class="details">No meal logged yet.</div>
         </div>
 
       </div>
     </section>
   </main>
 
-
-  <!-- POPUP / OVERLAY -->
+  <!-- POPUP -->
   <div id="eat" class="overlay">
-    <a href="#" class="overlay-close" aria-label="Close"></a>
+    <a href="#" class="overlay-close"></a>
 
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
       <a href="#" class="close-modal" aria-label="Close">×</a>
 
       <h2 id="eatTitle">Did you eat today?</h2>
 
-      <a href="#" class="pill pill-ghost">Yes, I did</a>
-      <a href="#" class="pill pill-primary"><span class="apple">🍎</span> Add a meal</a>
+      <a class="pill pill-ghost" href="#">Yes, I did</a>
+      <a class="pill pill-primary" href="#"><span class="apple">🍎</span> Add a meal</a>
     </div>
   </div>
 
-
-  <!-- COMMUNITY POSTS -->
+  <!-- FEATURED COMMUNITY POSTS -->
   <section class="section community-section">
     <h3 class="centered">Featured Community Posts</h3>
     <div id="featured-posts" class="community-grid"></div>
     <a href="community.html" class="view-all">View All Posts</a>
   </section>
 
-
-  <!-- TOP RANKED WORKOUT -->
+  <!-- TOP WORKOUT -->
   <section class="section workout-section">
     <h3 class="centered">
       <a href="workout.html?add=top" class="quick-add-link">
@@ -117,8 +113,6 @@
     </div>
   </section>
 
-
-  <!-- JS -->
   <script src="js/food.js"></script>
   <script src="js/index-community.js"></script>
 
