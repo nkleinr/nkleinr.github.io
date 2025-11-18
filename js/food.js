@@ -2,78 +2,57 @@ const DAILY_GOAL = 2000;
 let meals = {};
 let currentMealType = null;
 
-function getMealTypeFromLabel(labelText) {
-  const lower = labelText.toLowerCase();
-  if (lower.includes("breakfast")) return "breakfast";
-  if (lower.includes("lunch")) return "lunch";
-  if (lower.includes("dinner")) return "dinner";
-  return "meal";
-}
-
-function findMealRow(type) {
-  return document.querySelector(`.meal[data-type="${type}"]`);
-}
-
-function renderMeals() {
-  ["breakfast", "lunch", "dinner"].forEach(type => {
-    const row = findMealRow(type);
-    if (!row) return;
-
-    let details = row.querySelector(".details");
-    if (!details) {
-      details = document.createElement("div");
-      details.className = "details";
-      row.appendChild(details);
-    }
-
-    const data = meals[type];
-    if (data) {
-      details.textContent = `${data.name} – ${data.calories} kcal`;
-      details.style.opacity = "1";
-    } else {
-      details.textContent = "No meal logged yet.";
-      details.style.opacity = "0.7";
-    }
-  });
-
-  const total = Object.values(meals).reduce((sum, m) => sum + (m?.calories || 0), 0);
-
-  const totalStrong = document.querySelector(".food-subtext strong");
-  if (totalStrong) {
-    totalStrong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
-  }
+function loadMeals() {
+  meals = JSON.parse(localStorage.getItem("uf_meals")) || {};
 }
 
 function saveMeals() {
   localStorage.setItem("uf_meals", JSON.stringify(meals));
 }
 
-function loadMeals() {
-  const saved = localStorage.getItem("uf_meals");
-  meals = saved ? JSON.parse(saved) : {};
+function renderMeals() {
+  const totalEl = document.querySelector(".ft-calories strong");
+  let total = 0;
+
+  document.querySelectorAll(".ft-meal").forEach(row => {
+    const type = row.dataset.type;
+    const details = row.querySelector(".ft-details");
+    const data = meals[type];
+
+    if (data) {
+      details.textContent = `${data.name} – ${data.calories} kcal`;
+      details.style.opacity = "1";
+      total += data.calories;
+    } else {
+      details.textContent = "No meal logged yet.";
+      details.style.opacity = "0.6";
+    }
+  });
+
+  totalEl.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
 }
 
 function setupAddButtons() {
-  document.querySelectorAll(".add").forEach(btn => {
+  document.querySelectorAll(".ft-add-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const label = btn.getAttribute("aria-label");
-      currentMealType = getMealTypeFromLabel(label);
+      const meal = btn.closest(".ft-meal");
+      currentMealType = meal.dataset.type;
 
-      const title = document.getElementById("eatTitle");
+      const title = document.getElementById("ft-title");
       title.textContent = `Did you eat ${currentMealType}?`;
-
-      window.location.hash = "eat";
     });
   });
 }
 
 function setupPopupButtons() {
-  document.querySelector(".pill-ghost").addEventListener("click", e => {
+  // Close popup
+  document.querySelector(".ft-btn-ghost").addEventListener("click", e => {
     e.preventDefault();
     window.location.hash = "";
   });
 
-  document.querySelector(".pill-primary").addEventListener("click", e => {
+  // Add a meal
+  document.querySelector(".ft-btn-primary").addEventListener("click", e => {
     e.preventDefault();
 
     const existing = meals[currentMealType] || {};
@@ -82,10 +61,7 @@ function setupPopupButtons() {
     if (!name) return;
 
     const calories = parseInt(prompt("Calories?", existing.calories || ""), 10);
-    if (isNaN(calories) || calories <= 0) {
-      alert("Invalid calories");
-      return;
-    }
+    if (isNaN(calories)) return alert("Invalid calories");
 
     meals[currentMealType] = { name, calories };
     saveMeals();
@@ -95,11 +71,11 @@ function setupPopupButtons() {
   });
 }
 
-function setupDeleteOnDetails() {
+function setupDelete() {
   document.addEventListener("click", e => {
-    if (!e.target.classList.contains("details")) return;
+    if (!e.target.classList.contains("ft-details")) return;
 
-    const row = e.target.closest(".meal");
+    const row = e.target.closest(".ft-meal");
     const type = row.dataset.type;
 
     if (!meals[type]) return;
@@ -117,5 +93,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMeals();
   setupAddButtons();
   setupPopupButtons();
-  setupDeleteOnDetails();
+  setupDelete();
 });
