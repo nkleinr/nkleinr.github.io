@@ -1,3 +1,7 @@
+/* =========================================
+   UNLOCK FITNESS — FOOD TRACKER (LocalStorage)
+========================================= */
+
 const DAILY_GOAL = 2000;
 const STORAGE_KEY = "uf_meals";
 
@@ -11,26 +15,33 @@ let currentMealType = null;
 let currentMode = "add";
 let selectedMealType = "breakfast";
 
-/*  LOAD MEALS */
+/* ============================
+   LOAD / SAVE
+============================ */
 function loadMeals() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
-
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(raw) || {};
     meals.breakfast = parsed.breakfast || null;
     meals.lunch = parsed.lunch || null;
     meals.dinner = parsed.dinner || null;
-
-  } catch (e) { console.error(e); }
+  } catch (e) {
+    console.error("Error loading meals", e);
+  }
 }
 
-/* SAVE MEALS */
 function saveMeals() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
+  } catch (e) {
+    console.error("Error saving meals", e);
+  }
 }
 
-/* RENDER UI */
+/* ============================
+   RENDER
+============================ */
 function renderMeals() {
   ["breakfast", "lunch", "dinner"].forEach((type) => {
     const row = document.querySelector(`.meal[data-type="${type}"]`);
@@ -40,14 +51,16 @@ function renderMeals() {
     const label = row.querySelector(".label");
     const data = meals[type];
 
-    if (data && data.name) {
-      details.textContent = `${data.name} – ${data.calories} kcal`;
-      details.style.opacity = "1";
-      label.textContent = `Add ${capitalize(type)}`;
-    } else {
-      details.textContent = "No meal logged yet.";
-      details.style.opacity = "0.7";
-      label.textContent = `Add ${capitalize(type)}`;
+    if (details && label) {
+      if (data && data.name) {
+        details.textContent = `${data.name} – ${data.calories} kcal`;
+        details.style.opacity = "1";
+        label.textContent = `Add ${capitalize(type)}`;
+      } else {
+        details.textContent = "No meal logged yet.";
+        details.style.opacity = "0.7";
+        label.textContent = `Add ${capitalize(type)}`;
+      }
     }
   });
 
@@ -61,133 +74,204 @@ function updateTotalCalories() {
     (meals.lunch?.calories || 0) +
     (meals.dinner?.calories || 0);
 
-  document.querySelector(".today-pill strong").textContent =
-    `${total} Kcal / ${DAILY_GOAL} kcal`;
+  const strong = document.querySelector(".today-pill strong");
+  if (strong) {
+    strong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
+  }
 }
 
 function capitalize(s) {
+  if (!s) return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/* ADD BUTTONS */
+/* ============================
+   ADD BUTTONS
+============================ */
 function setupAddButtons() {
-  document.querySelectorAll(".meal .add").forEach((btn) => {
+  const addBtns = document.querySelectorAll(".meal .add");
+  addBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-
       const row = btn.closest(".meal");
+      if (!row) return;
+
       currentMealType = row.dataset.type;
       currentMode = "add";
 
-      document.getElementById("eatTitle").textContent =
-        `Did you eat ${capitalize(currentMealType)} today?`;
+      const eatTitle = document.getElementById("eatTitle");
+      if (eatTitle) {
+        eatTitle.textContent = `Did you eat ${capitalize(currentMealType)} today?`;
+      }
 
       window.location.hash = "eat";
     });
   });
 }
 
-/* EDIT + DELETE BUTTONS */
+/* ============================
+   EDIT / DELETE BUTTONS
+============================ */
 function setupEditDeleteButtons() {
   document.querySelectorAll(".meal").forEach((row) => {
     const type = row.dataset.type;
 
-    row.querySelector(".edit-btn").addEventListener("click", () => {
-      if (!meals[type]) return;
+    const editBtn = row.querySelector(".edit-btn");
+    const deleteBtn = row.querySelector(".delete-btn");
 
-      currentMealType = type;
-      currentMode = "edit";
-      prepareMealForm();
-      window.location.hash = "mealForm";
-    });
+    if (editBtn) {
+      editBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!meals[type]) return;
 
-    row.querySelector(".delete-btn").addEventListener("click", () => {
-      if (!meals[type]) return;
+        currentMealType = type;
+        currentMode = "edit";
+        prepareMealForm();
+        window.location.hash = "mealForm";
+      });
+    }
 
-      if (!confirm("Delete this meal?")) return;
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!meals[type]) return;
+        if (!confirm("Delete this meal?")) return;
 
-      meals[type] = null;
-      renderMeals();
-    });
+        meals[type] = null;
+        renderMeals();
+      });
+    }
   });
 }
 
-/* POPUP LOGIC */
+/* ============================
+   POPUP 1 — Did you eat?
+============================ */
 function setupEatPopupButtons() {
-  document.querySelector("#eat .pill-ghost")
-    .addEventListener("click", () => window.location.hash = "");
+  const noBtn = document.querySelector("#eat .pill-ghost");
+  const yesBtn = document.querySelector("#eat .pill-primary");
 
-  document.querySelector("#eat .pill-primary")
-    .addEventListener("click", () => {
+  if (noBtn) {
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.hash = "";
+    });
+  }
+
+  if (yesBtn) {
+    yesBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       prepareMealForm();
       window.location.hash = "mealForm";
     });
+  }
 }
 
+/* ============================
+   POPUP 2 — Add/Edit Meal
+============================ */
 function prepareMealForm() {
-  document.getElementById("mealFormTitle").textContent =
-    currentMode === "edit"
-      ? `Edit ${capitalize(currentMealType)}`
-      : `Add ${capitalize(currentMealType)}`;
+  const title = document.getElementById("mealFormTitle");
+  const nameInput = document.getElementById("mealName");
+  const calInput = document.getElementById("mealCalories");
+  if (!nameInput || !calInput) return;
+
+  if (title) {
+    title.textContent =
+      currentMode === "edit"
+        ? `Edit ${capitalize(currentMealType)}`
+        : `Add ${capitalize(currentMealType)}`;
+  }
 
   const existing = meals[currentMealType] || {};
-  document.getElementById("mealName").value = existing.name || "";
-  document.getElementById("mealCalories").value = existing.calories || "";
+  nameInput.value = existing.name || "";
+  calInput.value =
+    existing.calories !== undefined && existing.calories !== null
+      ? existing.calories
+      : "";
 }
 
 function setupMealFormHandlers() {
   const form = document.getElementById("mealFormElement");
+  const cancelBtn = document.getElementById("mealCancel");
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!currentMealType) return;
 
-    const name = document.getElementById("mealName").value.trim();
-    const calories = parseInt(document.getElementById("mealCalories").value) || 0;
+      const name = (document.getElementById("mealName").value || "").trim();
+      const calStr = (document.getElementById("mealCalories").value || "").trim();
 
-    meals[currentMealType] = { name, calories };
+      if (!name) {
+        alert("Please enter the meal name.");
+        return;
+      }
 
-    renderMeals();
-    window.location.hash = "";
-  });
+      const calories = parseInt(calStr, 10) || 0;
+      meals[currentMealType] = { name, calories };
 
-  document.getElementById("mealCancel").addEventListener("click", () => {
-    window.location.hash = "";
-  });
+      renderMeals();
+      window.location.hash = "";
+    });
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.hash = "";
+    });
+  }
 }
 
-/*  QUICK PICK TARGET */
+/* QUICK PICK TARGET */
 function setupQuickPickTarget() {
   const buttons = document.querySelectorAll(".qp-target-btn");
   const label = document.getElementById("qp-selected-label");
 
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      selectedMealType = btn.dataset.target;
+  if (!buttons.length) return;
 
-      buttons.forEach(b => b.classList.remove("active"));
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectedMealType = btn.dataset.target || "breakfast";
+
+      buttons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      label.textContent = `Selected: ${capitalize(selectedMealType)}`;
+      if (label) {
+        label.textContent = `Selected: ${capitalize(selectedMealType)}`;
+      }
     });
   });
 
-  document.querySelector('.qp-target-btn[data-target="breakfast"]').classList.add("active");
+  // default state
+  const defaultBtn = document.querySelector('.qp-target-btn[data-target="breakfast"]');
+  if (defaultBtn) defaultBtn.classList.add("active");
+  if (label) label.textContent = "Selected: Breakfast";
 }
 
-/* QUICK PICK ITEM CLICK */
+/* ============================
+   QUICK PICK ITEMS
+============================ */
 function setupQuickPickClicks() {
-  document.querySelectorAll(".food-group li").forEach(item => {
+  const items = document.querySelectorAll(".food-group li");
+  if (!items.length) return;
+
+  items.forEach((item) => {
     item.addEventListener("click", () => {
       const name = item.dataset.name;
-      const calories = parseInt(item.dataset.cal);
+      const calories = parseInt(item.dataset.cal, 10) || 0;
 
+      if (!selectedMealType) selectedMealType = "breakfast";
       meals[selectedMealType] = { name, calories };
       renderMeals();
     });
   });
 }
 
-/* INIT */
+/* ============================
+   INIT
+============================ */
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
