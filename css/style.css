@@ -1312,3 +1312,232 @@ body.index-page .title-section h1 {
 
 
 
+.page-food .wrap,
+.page-food .card,
+.page-food .today-pill,
+.page-food .meal-list,
+.page-food .meal,
+.page-food .icon,
+.page-food .label,
+.page-food .meal-actions,
+.page-food .circle-btn,
+.page-food .tiny-btn,
+.page-food .details,
+.page-food #eat,
+.page-food #mealForm,
+.page-food .overlay,
+.page-food .modal,
+.page-food .pill,
+.page-food .pill-primary,
+.page-food .pill-ghost,
+.page-food .modal-field,
+.page-food .modal-actions {
+    all: unset;
+    display: revert;
+}
+
+/* Page layout */
+.page-food .wrap {
+    display: flex;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+.page-food .card {
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: rgba(0,0,0,0.06) 0 4px 12px;
+}
+
+/* Title + Today’s Meals */
+.page-food h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 28px;
+}
+
+.page-food .today-pill {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.page-food .tm-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.page-food .today-pill small {
+    font-size: 16px;
+    display: inline-block;
+    margin-top: 6px;
+}
+
+/* Meal cards */
+.page-food .meal-list {
+    display: grid;
+    gap: 20px;
+}
+
+.page-food .meal {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-food .icon {
+    font-size: 26px;
+}
+
+.page-food .label {
+    font-weight: 700;
+    flex: 1;
+    padding-left: 12px;
+}
+
+.page-food .meal-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.page-food .circle-btn.add {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.page-food .tiny-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.page-food .edit-btn {
+    background: #e8f0ff;
+    color: #2b5fc1;
+}
+
+.page-food .delete-btn {
+    background: #ffeaea;
+    color: #d12;
+}
+
+.page-food .details {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* Popups (scoped) */
+.page-food .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.page-food .overlay:target {
+    display: flex;
+}
+
+.page-food .modal {
+    background: #ffffff;
+    padding: 28px 26px;
+    width: 360px;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.20);
+    position: relative;
+    text-align: center;
+}
+
+.page-food .close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+}
+
+/*  “Did you eat today?” popup */
+.page-food .pill {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    margin-top: 12px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.page-food .pill-ghost {
+    background: #efefef;
+}
+
+.page-food .pill-primary {
+    background: #2563eb;
+    color: white;
+}
+
+/* Add/Edit Meal popup */
+.page-food .modal-field {
+    text-align: left;
+    margin-top: 12px;
+}
+
+.page-food .modal-field span {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.page-food .modal-field input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.page-food .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+}
+
+.page-food .btn-primary {
+    background: #2563eb;
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+    width: 48%;
+}
+
+.page-food .btn-secondary {
+    background: #eee;
+    border-radius: 12px;
+    width: 48%;
+    padding: 12px;
+}
