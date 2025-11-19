@@ -1,13 +1,11 @@
 /* =========================================
-   UNLOCK FITNESS — FOOD TRACKER (LocalStorage)
+   UNLOCK FITNESS — FOOD TRACKER (LocalStorage + Data Table)
 ========================================= */
 
 const DAILY_GOAL = 2000;
-
-// LocalStorage key
 const STORAGE_KEY = "uf_meals";
 
-// Meal data structure (default values)
+// default structure
 let meals = {
   breakfast: null,
   lunch: null,
@@ -18,7 +16,7 @@ let currentMealType = null;
 let currentMode = "add";
 
 /* ============================
-   LOAD SAVED MEALS
+   LOAD MEALS FROM STORAGE
 ============================ */
 function loadMeals() {
   try {
@@ -27,28 +25,27 @@ function loadMeals() {
 
     const parsed = JSON.parse(raw);
 
-    // Make sure all 3 meal keys exist
     meals.breakfast = parsed.breakfast || null;
     meals.lunch = parsed.lunch || null;
     meals.dinner = parsed.dinner || null;
   } catch (e) {
-    console.warn("Error loading meals", e);
+    console.warn("❌ Error loading meals", e);
   }
 }
 
 /* ============================
-   SAVE TO LOCALSTORAGE
+   SAVE MEALS TO STORAGE
 ============================ */
 function saveMeals() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
   } catch (e) {
-    console.warn("Error saving meals", e);
+    console.warn("❌ Error saving meals", e);
   }
 }
 
 /* ============================
-   RENDER UI
+   RENDER ALL MEALS
 ============================ */
 function renderMeals() {
   ["breakfast", "lunch", "dinner"].forEach((type) => {
@@ -71,9 +68,13 @@ function renderMeals() {
   });
 
   updateTotalCalories();
+  renderDataTable();   // NEW
   saveMeals();
 }
 
+/* ============================
+   UPDATE TOTAL CALORIES
+============================ */
 function updateTotalCalories() {
   const total =
     (meals.breakfast?.calories || 0) +
@@ -81,17 +82,42 @@ function updateTotalCalories() {
     (meals.dinner?.calories || 0);
 
   const strong = document.querySelector(".today-pill strong");
-  if (strong) {
-    strong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
-  }
-}
-
-function capitalize(s) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  if (strong) strong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
 }
 
 /* ============================
-   POPUP #1 — “Did you eat today?”
+   DATA TABLE RENDERING (NEW)
+============================ */
+function renderDataTable() {
+  const tbody = document.getElementById("dataTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = ""; // clear table
+
+  Object.keys(meals).forEach((type) => {
+    const item = meals[type];
+
+    const row = document.createElement("tr");
+
+    const mealCell = document.createElement("td");
+    mealCell.textContent = capitalize(type);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = item?.name || "—";
+
+    const calCell = document.createElement("td");
+    calCell.textContent = item?.calories ? `${item.calories} kcal` : "—";
+
+    row.appendChild(mealCell);
+    row.appendChild(nameCell);
+    row.appendChild(calCell);
+
+    tbody.appendChild(row);
+  });
+}
+
+/* ============================
+   POPUP #1 — ADD BUTTONS
 ============================ */
 function setupAddButtons() {
   document.querySelectorAll(".meal .add").forEach((btn) => {
@@ -114,20 +140,22 @@ function setupEatPopupButtons() {
   const noBtn = document.querySelector("#eat .pill-ghost");
   const yesBtn = document.querySelector("#eat .pill-primary");
 
-  if (noBtn) noBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    closePopups();
-  });
+  if (noBtn)
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      closePopups();
+    });
 
-  if (yesBtn) yesBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    prepareMealForm();
-    window.location.hash = "mealForm";
-  });
+  if (yesBtn)
+    yesBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      prepareMealForm();
+      window.location.hash = "mealForm";
+    });
 }
 
 /* ============================
-   POPUP #2 — ADD / EDIT MEAL FORM
+   POPUP #2 — EDIT + DELETE
 ============================ */
 function setupEditDeleteButtons() {
   document.querySelectorAll(".meal").forEach((row) => {
@@ -136,21 +164,22 @@ function setupEditDeleteButtons() {
     const editBtn = row.querySelector(".edit-btn");
     const deleteBtn = row.querySelector(".delete-btn");
 
-    if (editBtn) {
+    if (editBtn)
       editBtn.addEventListener("click", (e) => {
         e.preventDefault();
         if (!meals[type]) return;
 
         currentMealType = type;
         currentMode = "edit";
+
         prepareMealForm();
         window.location.hash = "mealForm";
       });
-    }
 
-    if (deleteBtn) {
+    if (deleteBtn)
       deleteBtn.addEventListener("click", (e) => {
         e.preventDefault();
+
         if (!meals[type]) return;
 
         if (!confirm("Delete this meal?")) return;
@@ -158,10 +187,12 @@ function setupEditDeleteButtons() {
         meals[type] = null;
         renderMeals();
       });
-    }
   });
 }
 
+/* ============================
+   PREPARE THE FORM
+============================ */
 function prepareMealForm() {
   const title = document.getElementById("mealFormTitle");
   const name = document.getElementById("mealName");
@@ -179,6 +210,9 @@ function prepareMealForm() {
   calories.value = existing.calories || "";
 }
 
+/* ============================
+   FORM HANDLING
+============================ */
 function setupMealFormHandlers() {
   const form = document.getElementById("mealFormElement");
   const cancelBtn = document.getElementById("mealCancel");
@@ -188,9 +222,13 @@ function setupMealFormHandlers() {
       e.preventDefault();
 
       const name = document.getElementById("mealName").value.trim();
-      const calories = parseInt(document.getElementById("mealCalories").value) || 0;
+      const cal = parseInt(document.getElementById("mealCalories").value) || 0;
 
-      meals[currentMealType] = { name, calories };
+      meals[currentMealType] = {
+        name,
+        calories: cal
+      };
+
       renderMeals();
       closePopups();
     });
@@ -209,6 +247,13 @@ function setupMealFormHandlers() {
 ============================ */
 function closePopups() {
   window.location.hash = "";
+}
+
+/* ============================
+   CAPITALIZE HELPER
+============================ */
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 /* ============================
