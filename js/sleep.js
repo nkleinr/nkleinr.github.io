@@ -10,51 +10,71 @@ const HOURS_OPTIONS = [
 ];
 
 const $ = (id) => document.getElementById(id);
-const todayISO = () => { const d = new Date(); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); };
-const ymd = (d) => { d = new Date(d); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); };
-const avg = (a) => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
-const stddev = (a) => { if (a.length <= 1) return 0; const m = avg(a); return Math.sqrt(avg(a.map(x => (x-m)**2))); };
+
+const todayISO = () => {
+  const d = new Date();
+  d.setHours(12, 0, 0, 0);
+  return d.toISOString().slice(0, 10);
+};
+
+const ymd = (d) => {
+  d = new Date(d);
+  d.setHours(12, 0, 0, 0);
+  return d.toISOString().slice(0, 10);
+};
+
+const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
+
+const stddev = (a) => {
+  if (a.length <= 1) return 0;
+  const m = avg(a);
+  return Math.sqrt(avg(a.map((x) => (x - m) ** 2)));
+};
 
 function load() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
 }
+
 function save(data) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
-  catch {}
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {}
 }
 
 function upsert(entries, entry) {
-  const others = entries.filter(e => e.date !== entry.date);
-  return [...others, entry].sort((a,b) => a.date < b.date ? -1 : 1);
+  const others = entries.filter((e) => e.date !== entry.date);
+  return [...others, entry].sort((a, b) => (a.date < b.date ? -1 : 1));
 }
 
 function computeStreak(sorted) {
   if (!sorted.length) return 0;
   let streak = 1;
   for (let i = sorted.length - 1; i > 0; i--) {
-    const d1 = new Date(sorted[i].date);
-    const d0 = new Date(sorted[i-1].date);
-    const diff = Math.round((d1 - d0) / (1000*60*60*24));
+    const d1 = new Date(sorted[i].date + 'T12:00:00');
+    const d0 = new Date(sorted[i - 1].date + 'T12:00:00');
+    const diff = Math.round((d1 - d0) / (1000 * 60 * 60 * 24));
     if (diff === 1) streak++;
     else if (diff > 1) break;
   }
   return streak;
 }
 
-// DOM refs
-const dateInput   = $('date');
+const dateInput = $('date');
 const hourButtons = $('hourButtons');
-const saveBtn     = $('save');
+const saveBtn = $('save');
 const clearAllBtn = $('clearAll');
-const tbody       = $('tbody');
-const tableEl     = $('table');
-const emptyEl     = $('empty');
-const feedbackEl  = $('feedback');
-const avgEl       = $('avg');
-const sdEl        = $('sd');
-const streakEl    = $('streak');
-const chartEl     = $('chart');
+const tbody = $('tbody');
+const tableEl = $('table');
+const emptyEl = $('empty');
+const feedbackEl = $('feedback');
+const avgEl = $('avg');
+const sdEl = $('sd');
+const streakEl = $('streak');
+const chartEl = $('chart');
 
 let entries = load();
 let form = { date: todayISO(), hours: HOURS_OPTIONS[3].value };
@@ -74,6 +94,8 @@ function renderHourButtons() {
     b.addEventListener('click', () => {
       form.hours = opt.value;
       renderHourButtons();
+      updateFeedback();
+      renderChartAndStats();
     });
     hourButtons.appendChild(b);
   });
@@ -92,7 +114,13 @@ saveBtn.addEventListener('click', () => {
     alert('Please select a date first.');
     return;
   }
-  const entry = { id: crypto.randomUUID(), date: form.date, hours: Number(form.hours) };
+
+  const entry = {
+    id: crypto.randomUUID(),
+    date: form.date,
+    hours: Number(form.hours),
+  };
+
   entries = upsert(entries, entry);
   save(entries);
   renderTable();
@@ -111,10 +139,15 @@ clearAllBtn.addEventListener('click', () => {
 });
 
 function updateFeedback() {
-  const y = new Date(form.date);
+  if (!form.date) {
+    feedbackEl.textContent = '';
+    return;
+  }
+
+  const y = new Date(form.date + 'T12:00:00');
   y.setDate(y.getDate() - 1);
   const key = ymd(y);
-  const yesterday = entries.find(e => e.date === key);
+  const yesterday = entries.find((e) => e.date === key);
 
   if (!yesterday) {
     feedbackEl.textContent = 'Log yesterday to get feedback!';
@@ -142,7 +175,7 @@ function renderTable() {
   tableEl.style.display = 'table';
 
   tbody.innerHTML = '';
-  entries.forEach(e => {
+  entries.forEach((e) => {
     const tr = document.createElement('tr');
 
     const tdDate = document.createElement('td');
@@ -158,7 +191,7 @@ function renderTable() {
     del.textContent = 'Delete';
     del.className = 'del';
     del.addEventListener('click', () => {
-      entries = entries.filter(x => x.id !== e.id);
+      entries = entries.filter((x) => x.id !== e.id);
       save(entries);
       renderTable();
       renderChartAndStats();
@@ -172,16 +205,17 @@ function renderTable() {
 }
 
 function renderChartAndStats() {
-  const byDate = new Map(entries.map(e => [e.date, e]));
+  const byDate = new Map(entries.map((e) => [e.date, e]));
 
-const base = new Date();  
-base.setHours(0,0,0,0);  // FORCE local date, prevents UTC shift
-
-const localDate = new Date(form.date + "T00:00:00");
-entry.date = ymd(localDate);
+  let base;
+  if (form.date) {
+    base = new Date(form.date + 'T12:00:00');
+  } else {
+    base = new Date();
+    base.setHours(12, 0, 0, 0);
+  }
 
   const last7 = [];
-
   for (let i = 6; i >= 0; i--) {
     const d = new Date(base);
     d.setDate(base.getDate() - i);
@@ -190,21 +224,26 @@ entry.date = ymd(localDate);
     last7.push({ label: key.slice(5), hours: found ? found.hours : 0 });
   }
 
-  const hoursAll = entries.map(e => e.hours);
+  const hoursAll = entries.map((e) => e.hours);
   const mean = +(avg(hoursAll).toFixed(1));
   const sd = +(stddev(hoursAll).toFixed(1));
   const streak = computeStreak(entries);
 
-  avgEl.textContent    = (isNaN(mean)   ? 0 : mean)   + ' h';
-  sdEl.textContent     = (isNaN(sd)     ? 0 : sd)     + ' h sd';
+  avgEl.textContent = (isNaN(mean) ? 0 : mean) + ' h';
+  sdEl.textContent = (isNaN(sd) ? 0 : sd) + ' h sd';
   streakEl.textContent = (isNaN(streak) ? 0 : streak) + 'd';
 
-  const W = 600, H = 260, padL = 40, padR = 10, padB = 28, padT = 10;
+  const W = 600,
+    H = 260,
+    padL = 40,
+    padR = 10,
+    padB = 28,
+    padT = 10;
   const chartW = W - padL - padR;
   const chartH = H - padT - padB;
   const maxH = 10;
   const barW = (chartW / last7.length) * 0.6;
-  const gap  = (chartW / last7.length) * 0.4;
+  const gap = (chartW / last7.length) * 0.4;
 
   const yScale = (h) => chartH - (h / maxH) * chartH;
 
@@ -213,12 +252,12 @@ entry.date = ymd(localDate);
 
   for (let v = 0; v <= 10; v += 2) {
     const y = padT + yScale(v);
-    svg += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
-    svg += `<text x="${padL-8}" y="${y+4}" font-size="11" fill="#6b7280" text-anchor="end">${v}</text>`;
+    svg += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
+    svg += `<text x="${padL - 8}" y="${y + 4}" font-size="11" fill="#6b7280" text-anchor="end">${v}</text>`;
   }
 
   const y8 = padT + yScale(8);
-  svg += `<line x1="${padL}" y1="${y8}" x2="${W-padR}" y2="${y8}" stroke="#22c55e" stroke-width="2" stroke-dasharray="4 3"/>`;
+  svg += `<line x1="${padL}" y1="${y8}" x2="${W - padR}" y2="${y8}" stroke="#22c55e" stroke-width="2" stroke-dasharray="4 3"/>`;
 
   last7.forEach((d, i) => {
     const x = padL + i * (barW + gap) + gap / 2;
@@ -226,14 +265,13 @@ entry.date = ymd(localDate);
     const y = padT + (chartH - h);
 
     svg += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="6" fill="#2563eb"/>`;
-    svg += `<text x="${x+barW/2}" y="${H-8}" font-size="11" fill="#6b7280" text-anchor="middle">${d.label}</text>`;
+    svg += `<text x="${x + barW / 2}" y="${H - 8}" font-size="11" fill="#6b7280" text-anchor="middle">${d.label}</text>`;
   });
 
   chartEl.innerHTML = svg;
 }
 
-// initial render
+//  render
 renderTable();
 renderChartAndStats();
 updateFeedback();
-
