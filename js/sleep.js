@@ -11,20 +11,21 @@ const HOURS_OPTIONS = [
 
 const $ = (id) => document.getElementById(id);
 
-const todayISO = () => {
-  const d = new Date();
-  d.setHours(12, 0, 0, 0);
-  return d.toISOString().slice(0, 10);
-};
-
-const ymd = (d) => {
-  d = new Date(d);
-  d.setHours(12, 0, 0, 0);
-  return d.toISOString().slice(0, 10);
-};
+function ymdFromDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function todayISO() {
+  return ymdFromDate(new Date());
+}
+function dateFromYMD(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
 
 const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
-
 const stddev = (a) => {
   if (a.length <= 1) return 0;
   const m = avg(a);
@@ -38,7 +39,6 @@ function load() {
     return [];
   }
 }
-
 function save(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -54,8 +54,8 @@ function computeStreak(sorted) {
   if (!sorted.length) return 0;
   let streak = 1;
   for (let i = sorted.length - 1; i > 0; i--) {
-    const d1 = new Date(sorted[i].date + 'T12:00:00');
-    const d0 = new Date(sorted[i - 1].date + 'T12:00:00');
+    const d1 = dateFromYMD(sorted[i].date);
+    const d0 = dateFromYMD(sorted[i - 1].date);
     const diff = Math.round((d1 - d0) / (1000 * 60 * 60 * 24));
     if (diff === 1) streak++;
     else if (diff > 1) break;
@@ -63,25 +63,23 @@ function computeStreak(sorted) {
   return streak;
 }
 
-const dateInput = $('date');
+const dateInput   = $('date');
 const hourButtons = $('hourButtons');
-const saveBtn = $('save');
+const saveBtn     = $('save');
 const clearAllBtn = $('clearAll');
-const tbody = $('tbody');
-const tableEl = $('table');
-const emptyEl = $('empty');
-const feedbackEl = $('feedback');
-const avgEl = $('avg');
-const sdEl = $('sd');
-const streakEl = $('streak');
-const chartEl = $('chart');
+const tbody       = $('tbody');
+const tableEl     = $('table');
+const emptyEl     = $('empty');
+const feedbackEl  = $('feedback');
+const avgEl       = $('avg');
+const sdEl        = $('sd');
+const streakEl    = $('streak');
+const chartEl     = $('chart');
 
 let entries = load();
 let form = { date: todayISO(), hours: HOURS_OPTIONS[3].value };
-
 dateInput.value = form.date;
 
-// Render hour buttons
 function renderHourButtons() {
   hourButtons.innerHTML = '';
   HOURS_OPTIONS.forEach((opt) => {
@@ -100,7 +98,6 @@ function renderHourButtons() {
     hourButtons.appendChild(b);
   });
 }
-
 renderHourButtons();
 
 dateInput.addEventListener('change', (e) => {
@@ -117,7 +114,7 @@ saveBtn.addEventListener('click', () => {
 
   const entry = {
     id: crypto.randomUUID(),
-    date: form.date,
+    date: form.date,             
     hours: Number(form.hours),
   };
 
@@ -138,15 +135,16 @@ clearAllBtn.addEventListener('click', () => {
   }
 });
 
+// ---- FEEDBACK ----
 function updateFeedback() {
   if (!form.date) {
     feedbackEl.textContent = '';
     return;
   }
 
-  const y = new Date(form.date + 'T12:00:00');
-  y.setDate(y.getDate() - 1);
-  const key = ymd(y);
+  const current = dateFromYMD(form.date);
+  current.setDate(current.getDate() - 1);
+  const key = ymdFromDate(current);
   const yesterday = entries.find((e) => e.date === key);
 
   if (!yesterday) {
@@ -164,6 +162,7 @@ function updateFeedback() {
   }
 }
 
+// ---- TABLE ----
 function renderTable() {
   if (!entries.length) {
     emptyEl.style.display = 'block';
@@ -173,8 +172,8 @@ function renderTable() {
 
   emptyEl.style.display = 'none';
   tableEl.style.display = 'table';
-
   tbody.innerHTML = '';
+
   entries.forEach((e) => {
     const tr = document.createElement('tr');
 
@@ -207,19 +206,14 @@ function renderTable() {
 function renderChartAndStats() {
   const byDate = new Map(entries.map((e) => [e.date, e]));
 
-  let base;
-  if (form.date) {
-    base = new Date(form.date + 'T12:00:00');
-  } else {
-    base = new Date();
-    base.setHours(12, 0, 0, 0);
-  }
+  const base = new Date();
+  base.setHours(0, 0, 0, 0);
 
   const last7 = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(base);
     d.setDate(base.getDate() - i);
-    const key = ymd(d);
+    const key = ymdFromDate(d);
     const found = byDate.get(key);
     last7.push({ label: key.slice(5), hours: found ? found.hours : 0 });
   }
@@ -229,21 +223,22 @@ function renderChartAndStats() {
   const sd = +(stddev(hoursAll).toFixed(1));
   const streak = computeStreak(entries);
 
-  avgEl.textContent = (isNaN(mean) ? 0 : mean) + ' h';
-  sdEl.textContent = (isNaN(sd) ? 0 : sd) + ' h sd';
+  avgEl.textContent    = (isNaN(mean)   ? 0 : mean)   + ' h';
+  sdEl.textContent     = (isNaN(sd)     ? 0 : sd)     + ' h sd';
   streakEl.textContent = (isNaN(streak) ? 0 : streak) + 'd';
 
   const W = 600,
-    H = 260,
-    padL = 40,
-    padR = 10,
-    padB = 28,
-    padT = 10;
+        H = 260,
+        padL = 40,
+        padR = 10,
+        padB = 28,
+        padT = 10;
+
   const chartW = W - padL - padR;
   const chartH = H - padT - padB;
-  const maxH = 10;
+  const maxH = 10; // y-axis max hours
   const barW = (chartW / last7.length) * 0.6;
-  const gap = (chartW / last7.length) * 0.4;
+  const gap  = (chartW / last7.length) * 0.4;
 
   const yScale = (h) => chartH - (h / maxH) * chartH;
 
@@ -271,7 +266,7 @@ function renderChartAndStats() {
   chartEl.innerHTML = svg;
 }
 
-//  render
+// ---- INITIAL RENDER ----
 renderTable();
 renderChartAndStats();
 updateFeedback();
