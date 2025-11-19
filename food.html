@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
-  <title>UnlockFitness — Food Tracker</title>
 </head>
 
 <body class="page-food">
@@ -16,7 +16,6 @@
       <a href="index.html">
         <img src="assets/logo.png" alt="UnlockFitness logo" class="logo">
       </a>
-
       <a href="index.html">Home</a>
       <a href="workout.html">Fitness Tracker</a>
       <a href="sleep.html">Sleep Tracker</a>
@@ -30,38 +29,18 @@
     </div>
   </nav>
 
+
+
   <!-- MAIN CONTENT -->
   <main class="wrap">
     <section class="card">
       <h1>FOOD TRACKER</h1>
 
-      <!-- Today’s Pills -->
       <div class="today-pill">
         <div class="tm-title">Today’s Meals</div>
         <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
       </div>
 
-      <!-- ============================
-           SAVED DATA TABLE 
-      ============================= -->
-      <section class="data-section">
-        <h2>Saved Meals</h2>
-
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Meal</th>
-              <th>Name</th>
-              <th>Calories</th>
-            </tr>
-          </thead>
-          <tbody id="dataTableBody"></tbody>
-        </table>
-      </section>
-
-      <!-- ============================
-           MEAL LIST 
-      ============================= -->
       <div class="meal-list">
 
         <!-- BREAKFAST -->
@@ -70,7 +49,7 @@
           <div class="label">Add Breakfast</div>
 
           <div class="meal-actions">
-            <a class="circle-btn add" href="#eat" aria-label="Add Breakfast">+</a>
+            <a class="circle-btn add" href="#eat">+</a>
             <button class="tiny-btn edit-btn" type="button">Edit</button>
             <button class="tiny-btn delete-btn" type="button">Delete</button>
           </div>
@@ -84,7 +63,7 @@
           <div class="label">Add Lunch</div>
 
           <div class="meal-actions">
-            <a class="circle-btn add" href="#eat" aria-label="Add Lunch">+</a>
+            <a class="circle-btn add" href="#eat">+</a>
             <button class="tiny-btn edit-btn" type="button">Edit</button>
             <button class="tiny-btn delete-btn" type="button">Delete</button>
           </div>
@@ -98,7 +77,7 @@
           <div class="label">Add Dinner</div>
 
           <div class="meal-actions">
-            <a class="circle-btn add" href="#eat" aria-label="Add Dinner">+</a>
+            <a class="circle-btn add" href="#eat">+</a>
             <button class="tiny-btn edit-btn" type="button">Edit</button>
             <button class="tiny-btn delete-btn" type="button">Delete</button>
           </div>
@@ -108,64 +87,19 @@
 
       </div>
     </section>
-  </main>
 
-  <!-- POPUP 1 — Did you eat today? -->
-  <div id="eat" class="overlay">
-    <a href="#" class="overlay-close"></a>
 
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
-      <a href="#" class="close">×</a>
-      <h2 id="eatTitle">Did you eat today?</h2>
+    <!-- ============================
+         FOOD DATABASE SECTION
+    ============================ -->
+    <section class="food-database-section">
+      <h2>Food Database</h2>
+      <p>Select a common food to auto-fill your meal.</p>
 
-      <a class="pill pill-ghost" href="#"><span>Yes, I did</span></a>
-      <a class="pill pill-primary" href="#mealForm">
-        <span class="apple">🍎</span><span>Add a meal</span>
-      </a>
-    </div>
-  </div>
+      <div class="food-db">
 
-  <!-- POPUP 2 — Add/Edit Meal -->
-  <div id="mealForm" class="overlay">
-    <a href="#" class="overlay-close"></a>
-
-    <div class="modal meal-modal" role="dialog" aria-modal="true" aria-labelledby="mealFormTitle">
-      <a href="#" class="close">×</a>
-      <h2 id="mealFormTitle">Add Meal</h2>
-
-      <form id="mealFormElement">
-        <label class="modal-field">
-          <span>Meal name</span>
-          <input type="text" id="mealName" required />
-        </label>
-
-        <label class="modal-field">
-          <span>Calories (kcal)</span>
-          <input type="number" id="mealCalories" min="0" required />
-        </label>
-
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="mealCancel">Cancel</button>
-          <button type="submit" class="btn-primary">Save</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- AD BANNER -->
-  <section class="ad-banner promo-banner">
-    <div class="promo-content">
-      <div class="promo-text">
-        <h2>🔥 Buy generic protein powder!</h2>
-        <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
-      </div>
-      <img src="assets/gym-promo.png" alt="SAMPLE AD" class="promo-img">
-    </div>
-  </section>
-
-  <!-- SCRIPTS -->
-  <script src="js/index-community.js"></script>
-  <script src="js/food.js"></script>
-
-</body>
-</html>
+        <!-- BREAKFAST -->
+        <div class="food-group">
+          <h3>🍳 Breakfast Options</h3>
+          <ul>
+            <li data-nam
