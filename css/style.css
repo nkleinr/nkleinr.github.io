@@ -1210,10 +1210,7 @@ body.index-page .title-section h1 {
   background: #1d4ed8;
 }
 
-/* ============================
-   FOOD TRACKER POPUPS FIX
-   (place at very bottom of style.css)
-============================ */
+
 
 /* Base overlay for food tracker popups */
 .overlay {
@@ -1311,4 +1308,5 @@ body.index-page .title-section h1 {
   gap: 10px;
   margin-top: 10px;
 }
+
 
