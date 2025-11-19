@@ -3,195 +3,157 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
 </head>
 
 <body class="page-food">
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="index.html">
-        <img src="assets/logo.png" alt="UnlockFitness logo" class="logo">
-      </a>
-      <a href="index.html">Home</a>
-      <a href="workout.html">Fitness Tracker</a>
-      <a href="sleep.html">Sleep Tracker</a>
-      <a href="community.html">Community</a>
-    </div>
-
-    <div class="nav-right">
-      <a href="login.html">Login</a>
-      <a href="signup.html">Signup</a>
-      <a href="profile.html">Profile</a>
-    </div>
-  </nav>
-
-
-
-  <!-- MAIN CONTENT -->
-  <main class="wrap">
-    <section class="card">
-      <h1>FOOD TRACKER</h1>
-
-      <div class="today-pill">
-        <div class="tm-title">Today’s Meals</div>
-        <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
-      </div>
-
-      <div class="meal-list">
-
-        <!-- BREAKFAST -->
-        <div class="meal" data-type="breakfast">
-          <div class="icon">🍳</div>
-          <div class="label">Add Breakfast</div>
-
-          <div class="meal-actions">
-            <a class="circle-btn add" href="#eat">+</a>
-            <button class="tiny-btn edit-btn" type="button">Edit</button>
-            <button class="tiny-btn delete-btn" type="button">Delete</button>
-          </div>
-
-          <div class="details">No meal logged yet.</div>
-        </div>
-
-        <!-- LUNCH -->
-        <div class="meal" data-type="lunch">
-          <div class="icon">🍗</div>
-          <div class="label">Add Lunch</div>
-
-          <div class="meal-actions">
-            <a class="circle-btn add" href="#eat">+</a>
-            <button class="tiny-btn edit-btn" type="button">Edit</button>
-            <button class="tiny-btn delete-btn" type="button">Delete</button>
-          </div>
-
-          <div class="details">No meal logged yet.</div>
-        </div>
-
-        <!-- DINNER -->
-        <div class="meal" data-type="dinner">
-          <div class="icon">🥗</div>
-          <div class="label">Add Dinner</div>
-
-          <div class="meal-actions">
-            <a class="circle-btn add" href="#eat">+</a>
-            <button class="tiny-btn edit-btn" type="button">Edit</button>
-            <button class="tiny-btn delete-btn" type="button">Delete</button>
-          </div>
-
-          <div class="details">No meal logged yet.</div>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ============================
-         FOOD DATABASE SECTION
-    ============================ -->
-    <section class="food-database-section">
-      <h2>Quick Picks</h2>
-      <p>Select a common food to auto-fill your meal.</p>
-
-      <div class="food-db">
-
-        <!-- BREAKFAST -->
-        <div class="food-group">
-          <h3>🍳 Breakfast Options</h3>
-          <ul>
-            <li data-name="Eggs" data-cal="150">Eggs – 150 kcal</li>
-            <li data-name="Oatmeal" data-cal="120">Oatmeal – 120 kcal</li>
-            <li data-name="Toast" data-cal="80">Toast – 80 kcal</li>
-            <li data-name="Yogurt" data-cal="100">Yogurt – 100 kcal</li>
-          </ul>
-        </div>
-
-        <!-- LUNCH -->
-        <div class="food-group">
-          <h3>🍗 Lunch Options</h3>
-          <ul>
-            <li data-name="Chicken" data-cal="300">Chicken – 300 kcal</li>
-            <li data-name="Sandwich" data-cal="350">Sandwich – 350 kcal</li>
-            <li data-name="Rice & Veggies" data-cal="250">Rice & Veggies – 250 kcal</li>
-            <li data-name="Salad" data-cal="180">Salad – 180 kcal</li>
-          </ul>
-        </div>
-
-        <!-- DINNER -->
-        <div class="food-group">
-          <h3>🥗 Dinner Options</h3>
-          <ul>
-            <li data-name="Pasta" data-cal="400">Pasta – 400 kcal</li>
-            <li data-name="Steak" data-cal="500">Steak – 500 kcal</li>
-            <li data-name="Soup" data-cal="150">Soup – 150 kcal</li>
-            <li data-name="Grilled Fish" data-cal="320">Grilled Fish – 320 kcal</li>
-          </ul>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- POPUP 1 -->
-  <div id="eat" class="overlay">
-    <a href="#" class="overlay-close"></a>
-
-    <div class="modal">
-      <a href="#" class="close">×</a>
-      <h2 id="eatTitle">Did you eat today?</h2>
-
-      <a class="pill pill-ghost" href="#">Yes, I did</a>
-      <a class="pill pill-primary" href="#mealForm"><span>🍎</span> Add a meal</a>
-    </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="index.html">
+      <img src="assets/logo.png" alt="UnlockFitness logo" class="logo">
+    </a>
+    <a href="index.html">Home</a>
+    <a href="workout.html">Fitness Tracker</a>
+    <a href="sleep.html">Sleep Tracker</a>
+    <a href="community.html">Community</a>
   </div>
 
-
-  <!-- POPUP 2 -->
-  <div id="mealForm" class="overlay">
-    <a href="#" class="overlay-close"></a>
-
-    <div class="modal meal-modal">
-      <a href="#" class="close">×</a>
-      <h2 id="mealFormTitle">Add Meal</h2>
-
-      <form id="mealFormElement">
-        <label class="modal-field">
-          <span>Meal name</span>
-          <input type="text" id="mealName" required />
-        </label>
-
-        <label class="modal-field">
-          <span>Calories (kcal)</span>
-          <input type="number" id="mealCalories" min="0" required />
-        </label>
-
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="mealCancel">Cancel</button>
-          <button type="submit" class="btn-primary">Save</button>
-        </div>
-      </form>
-    </div>
+  <div class="nav-right">
+    <a href="login.html">Login</a>
+    <a href="signup.html">Signup</a>
+    <a href="profile.html">Profile</a>
   </div>
+</nav>
 
+<!-- MAIN CONTENT -->
+<main class="wrap">
+  <section class="card">
+    <h1>FOOD TRACKER</h1>
 
-  <!-- AD -->
-  <section class="ad-banner promo-banner">
-    <div class="promo-content">
-      <div class="promo-text">
-        <h2>🔥 Buy generic protein powder!</h2>
-        <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
+    <div class="today-pill">
+      <div class="tm-title">Today’s Meals</div>
+      <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
+    </div>
+
+    <div class="meal-list">
+
+      <!-- BREAKFAST -->
+      <div class="meal" data-type="breakfast">
+        <div class="icon">🍳</div>
+        <div class="label">Add Breakfast</div>
+
+        <div class="meal-actions">
+          <a class="circle-btn add" href="#eat" aria-label="Add Breakfast">+</a>
+          <button class="tiny-btn edit-btn" type="button">Edit</button>
+          <button class="tiny-btn delete-btn" type="button">Delete</button>
+        </div>
+
+        <div class="details">No meal logged yet.</div>
       </div>
-      <img src="assets/gym-promo.png" class="promo-img">
+
+      <!-- LUNCH -->
+      <div class="meal" data-type="lunch">
+        <div class="icon">🍗</div>
+        <div class="label">Add Lunch</div>
+
+        <div class="meal-actions">
+          <a class="circle-btn add" href="#eat" aria-label="Add Lunch">+</a>
+          <button class="tiny-btn edit-btn" type="button">Edit</button>
+          <button class="tiny-btn delete-btn" type="button">Delete</button>
+        </div>
+
+        <div class="details">No meal logged yet.</div>
+      </div>
+
+      <!-- DINNER -->
+      <div class="meal" data-type="dinner">
+        <div class="icon">🥗</div>
+        <div class="label">Add Dinner</div>
+
+        <div class="meal-actions">
+          <a class="circle-btn add" href="#eat" aria-label="Add Dinner">+</a>
+          <button class="tiny-btn edit-btn" type="button">Edit</button>
+          <button class="tiny-btn delete-btn" type="button">Delete</button>
+        </div>
+
+        <div class="details">No meal logged yet.</div>
+      </div>
+
     </div>
   </section>
+</main>
 
-  <script src="js/food.js"></script>
+<!-- QUICK PICK TARGET SELECTION -->
+<section class="quick-pick-target">
+  <h2>Apply Quick Pick To:</h2>
+
+  <div class="target-buttons">
+    <button class="qp-target-btn" data-target="breakfast">Breakfast</button>
+    <button class="qp-target-btn" data-target="lunch">Lunch</button>
+    <button class="qp-target-btn" data-target="dinner">Dinner</button>
+  </div>
+
+  <p id="qp-selected-label">Selected: Breakfast</p>
+</section>
+
+<!-- QUICK PICKS -->
+<section class="food-database-section">
+  <h2>Quick Picks</h2>
+  <p>Select a common food to auto-fill your meal.</p>
+
+  <div class="food-db">
+
+    <!-- BREAKFAST -->
+    <div class="food-group">
+      <h3>🍳 Breakfast Options</h3>
+      <ul>
+        <li data-name="Eggs" data-cal="150">Eggs – 150 kcal</li>
+        <li data-name="Oatmeal" data-cal="120">Oatmeal – 120 kcal</li>
+        <li data-name="Toast" data-cal="80">Toast – 80 kcal</li>
+        <li data-name="Yogurt" data-cal="100">Yogurt – 100 kcal</li>
+      </ul>
+    </div>
+
+    <!-- LUNCH -->
+    <div class="food-group">
+      <h3>🍗 Lunch Options</h3>
+      <ul>
+        <li data-name="Chicken" data-cal="300">Chicken – 300 kcal</li>
+        <li data-name="Sandwich" data-cal="350">Sandwich – 350 kcal</li>
+        <li data-name="Rice & Veggies" data-cal="250">Rice & Veggies – 250 kcal</li>
+        <li data-name="Salad" data-cal="180">Salad – 180 kcal</li>
+      </ul>
+    </div>
+
+    <!-- DINNER -->
+    <div class="food-group">
+      <h3>🥦 Dinner Options</h3>
+      <ul>
+        <li data-name="Pasta" data-cal="400">Pasta – 400 kcal</li>
+        <li data-name="Steak" data-cal="500">Steak – 500 kcal</li>
+        <li data-name="Soup" data-cal="150">Soup – 150 kcal</li>
+        <li data-name="Grilled Fish" data-cal="320">Grilled Fish – 320 kcal</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- AD -->
+<section class="ad-banner promo-banner">
+  <div class="promo-content">
+    <div class="promo-text">
+      <h2>🔥 Buy generic protein powder!</h2>
+      <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
+    </div>
+    <img src="assets/gym-promo.png" alt="SAMPLE AD" class="promo-img">
+  </div>
+</section>
+
+<script src="js/food.js"></script>
 
 </body>
 </html>
-
