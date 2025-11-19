@@ -573,310 +573,283 @@ select {
 /* =========================================
    FOOD TRACKER
 ========================================= */
-/* Main card / wrapper */
-.food-wrap,
-.ft-wrap {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 20px;
+/********************************************
+    FOOD TRACKER — FULL STYLE (MATCHED)
+********************************************/
+
+/* Page wrapper */
+.food-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
 }
 
-.food-card,
-.ft-card {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: var(--shadow);
+/* =============================
+   PAGE HEADER
+============================= */
+.food-header-section {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-/* Header/Title + calories pill */
-.food-header,
-.ft-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+.food-header-section h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #111827;
 }
 
-.today-title,
-.food-title {
-  font-size: 24px;
-  font-weight: 700;
+.food-header-section .subtitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
 }
 
-.today-pill,
-.ft-calories {
-  text-align: right;
-  color: var(--muted);
+/* =============================
+   TODAY’S MEALS SUMMARY
+============================= */
+.today-pill {
+    text-align: center;
+    margin-bottom: 26px;
 }
 
-/* Meal list rows */
-.meal-list,
-.ft-meal-list {
-  margin-top: 16px;
-  display: grid;
-  gap: 14px;
+.tm-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
 }
 
-.meal,
-.meal-item,
-.ft-meal {
-  background: #f9fafb;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.today-pill small {
+    margin-top: 5px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
 }
 
-.meal-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* =============================
+   MEAL LIST
+============================= */
+.meal-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    gap: 18px;
 }
 
-.icon,
-.meal-icon,
-.ft-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+.meal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px 18px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.label,
-.meal-label,
-.ft-label {
-  font-weight: 600;
-  font-size: 16px;
+.icon {
+    font-size: 26px;
+    padding-left: 8px;
 }
 
-/* Action buttons on the right */
-.meal-actions,
-.meal-buttons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.label {
+    font-weight: 600;
+    font-size: 18px;
+    flex: 1;
 }
 
-/* Circle + add button */
-.circle-btn,
-.meal-add-btn,
-.ft-add-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #111827;
-  color: #fff;
-  font-size: 20px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
+/* =============================
+   BUTTON GROUP
+============================= */
+.meal-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Small Edit / Delete buttons */
-.tiny-btn,
-.meal-edit-btn,
-.meal-delete-btn {
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #ffffff;
-  cursor: pointer;
-  font-weight: 600;
+.circle-btn.add {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
-.tiny-btn.edit-btn,
-.meal-edit-btn {
-  background: #e5edff;
-  color: #1d4ed8;
+.circle-btn.add:hover {
+    background: #1d4ed8;
 }
 
-.tiny-btn.delete-btn,
-.meal-delete-btn {
-  background: #fee2e2;
-  color: #b91c1c;
+/* EDIT + DELETE buttons */
+.tiny-btn {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
 }
 
-/* Details text under each meal */
-.details,
-.meal-details,
-.ft-details {
-  width: 100%;
-  font-size: 13px;
-  margin-top: 6px;
-  color: var(--muted);
+.edit-btn {
+    background: #e8f0ff;
+    color: #2b5fc1;
 }
 
-/* -----------------------------------------
-   Add/Edit Meal FORM popup
-   (supports both old IDs and new ones)
------------------------------------------- */
-
-/* overlay container – JS (.show) OR :target */
-#foodOverlay,
-#mealForm {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 2500;
+.delete-btn {
+    background: #ffeaea;
+    color: #d12;
 }
 
-/* :target version (when you navigate to #mealForm) */
-#mealForm:target {
-  display: flex;
+/* Meal details */
+.details {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 8px;
+    padding-left: 6px;
+    opacity: 0.7;
 }
 
-/* JS version (when we add .show in JS) */
-#foodOverlay.show {
-  display: flex;
+
+/* =============================
+   OVERLAY POPUPS
+============================= */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
 }
 
-.food-modal,
-.meal-modal {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 22px 22px 18px;
-  width: 340px;
-  max-width: 90vw;
-  box-shadow: var(--shadow);
-  position: relative;
-  text-align: left;
+.overlay:target {
+    display: flex;
 }
 
-.food-modal h2,
-.meal-modal h2 {
-  font-size: 20px;
-  margin-bottom: 14px;
+/* Close background click */
+.overlay-close {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
 }
 
-.close-modal,
-.food-close,
-.modal .close {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  font-size: 20px;
-  color: var(--muted);
-  text-decoration: none;
-  cursor: pointer;
+/* POPUP base modal */
+.modal {
+    background: #ffffff;
+    padding: 26px;
+    border-radius: 16px;
+    width: 360px;
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 2;
+    text-align: center;
+}
+
+/* Close X */
+.close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 24px;
+    text-decoration: none;
+    color: #ccc;
+}
+
+.close:hover {
+    color: #888;
+}
+
+/* =============================
+   POPUP 1 — Did You Eat Today?
+============================= */
+.modal h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.pill {
+    display: block;
+    padding: 14px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    text-decoration: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pill-ghost {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.pill-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+/* =============================
+   POPUP 2 — Add/Edit Meal Form
+============================= */
+.modal-field {
+    text-align: left;
+    margin-bottom: 14px;
 }
 
 .modal-field span {
-  display: block;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 4px;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
-.modal-field input,
-.food-input,
-#mealName,
-#mealCalories {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  margin-bottom: 10px;
-  font-size: 14px;
+.modal-field input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: 16px;
 }
 
 .modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 6px;
-}
-
-.btn-primary,
-.food-submit {
-  background: #2563eb;
-  color: #fff;
-  border: 1px solid #1d4ed8;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
 }
 
 .btn-secondary,
-.food-cancel {
-  background: #f3f4f6;
-  color: #111827;
+.btn-primary {
+    width: 48%;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
 }
 
-/* -----------------------------------------
-   "Did you eat today?" popup
-   (again supports both ID styles)
------------------------------------------- */
-
-#eatOverlay,
-#eat {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 2600;
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
 }
 
-/* :target version */
-#eat:target {
-  display: flex;
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
 }
 
-/* JS .show version */
-#eatOverlay.show {
-  display: flex;
-}
-
-.eat-modal,
-.modal.food-modal-simple {
-  background: #ffffff;
-  padding: 26px 22px 20px;
-  border-radius: 18px;
-  width: 340px;
-  max-width: 90vw;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-.eat-modal h2 {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 18px;
-}
-
-.eat-btn-yes,
-.eat-btn-add {
-  display: block;
-  padding: 12px 14px;
-  border-radius: 999px;
-  margin-top: 10px;
-  font-weight: 700;
-  text-decoration: none;
-  border: none;
-}
-
-.eat-btn-yes {
-  background: #ffe4f1;
-  color: #333;
-}
-
-.eat-btn-add {
-  background: #2563eb;
-  color: #fff;
+.btn-primary:hover {
+    background: #1e40af;
 }
 
 /* =========================================
@@ -1253,5 +1226,6 @@ body.index-page .title-section h1 {
 .ft-btn-primary:hover {
   background: #1d4ed8;
 }
+
 
 
