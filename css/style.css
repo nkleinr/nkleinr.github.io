@@ -878,6 +878,26 @@ select {
   background: #2563eb;
   color: #fff;
 }
+/* Center + Style Today's Meals section */
+.today-pill {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.today-pill .tm-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.today-pill small {
+    font-size: 18px;
+    font-weight: 700;
+    color: #374151;
+    display: inline-block;
+    margin-top: 4px;
+}
 /* =========================================
    AUTH PAGES (Login + Signup)
 ========================================= */
@@ -1252,3 +1272,4 @@ body.index-page .title-section h1 {
 .ft-btn-primary:hover {
   background: #1d4ed8;
 }
+
