@@ -1,229 +1,200 @@
+/* =========================================
+   UNLOCK FITNESS — FOOD TRACKER (LocalStorage)
+========================================= */
+
 const DAILY_GOAL = 2000;
-let meals = {};
-let currentMealType = null; 
-let currentMode = "add";    
-function getMealTypeFromLabel(labelText) {
-  const lower = labelText.toLowerCase();
-  if (lower.includes("breakfast")) return "breakfast";
-  if (lower.includes("lunch")) return "lunch";
-  if (lower.includes("dinner")) return "dinner";
-  return null;
+
+// LocalStorage key
+const STORAGE_KEY = "uf_meals";
+
+// Meal data structure (default values)
+let meals = {
+  breakfast: null,
+  lunch: null,
+  dinner: null
+};
+
+let currentMealType = null;
+let currentMode = "add";
+
+/* ============================
+   LOAD SAVED MEALS
+============================ */
+function loadMeals() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+
+    const parsed = JSON.parse(raw);
+
+    // Make sure all 3 meal keys exist
+    meals.breakfast = parsed.breakfast || null;
+    meals.lunch = parsed.lunch || null;
+    meals.dinner = parsed.dinner || null;
+  } catch (e) {
+    console.warn("Error loading meals", e);
+  }
 }
 
-function getRowFor(type) {
-  return document.querySelector(`.meal[data-type="${type}"]`);
+/* ============================
+   SAVE TO LOCALSTORAGE
+============================ */
+function saveMeals() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
+  } catch (e) {
+    console.warn("Error saving meals", e);
+  }
 }
 
-function formatType(type) {
-  if (!type) return "Meal";
-  return type.charAt(0).toUpperCase() + type.slice(1);
-}
-// Render + storage
+/* ============================
+   RENDER UI
+============================ */
 function renderMeals() {
   ["breakfast", "lunch", "dinner"].forEach((type) => {
-    const row = getRowFor(type);
+    const row = document.querySelector(`.meal[data-type="${type}"]`);
     if (!row) return;
 
     const details = row.querySelector(".details");
     const label = row.querySelector(".label");
-
     const data = meals[type];
 
     if (data && data.name) {
-      if (details) {
-        details.textContent = `${data.name} – ${data.calories} kcal`;
-        details.style.opacity = "1";
-      }
-      if (label) {
-        label.textContent = `Add ${formatType(type)}`;
-      }
+      details.textContent = `${data.name} – ${data.calories} kcal`;
+      details.style.opacity = "1";
+      label.textContent = `Add ${capitalize(type)}`;
     } else {
-      if (details) {
-        details.textContent = "No meal logged yet.";
-        details.style.opacity = "0.7";
-      }
-      if (label) {
-        label.textContent = `Add ${formatType(type)}`;
-      }
+      details.textContent = "No meal logged yet.";
+      details.style.opacity = "0.7";
+      label.textContent = `Add ${capitalize(type)}`;
     }
   });
 
-  // total calories
-  const total = Object.values(meals).reduce(
-    (sum, m) => sum + (m.calories || 0),
-    0
-  );
-  const totalStrong = document.querySelector(".today-pill strong");
-  if (totalStrong) {
-    totalStrong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
-  }
-  try {
-    localStorage.setItem("uf_meals", JSON.stringify(meals));
-  } catch (e) {
+  updateTotalCalories();
+  saveMeals();
+}
+
+function updateTotalCalories() {
+  const total =
+    (meals.breakfast?.calories || 0) +
+    (meals.lunch?.calories || 0) +
+    (meals.dinner?.calories || 0);
+
+  const strong = document.querySelector(".today-pill strong");
+  if (strong) {
+    strong.textContent = `${total} Kcal / ${DAILY_GOAL} kcal`;
   }
 }
 
-function loadMeals() {
-  try {
-    const raw = localStorage.getItem("uf_meals");
-    if (!raw) {
-      meals = {};
-      return;
-    }
-    meals = JSON.parse(raw) || {};
-  } catch (e) {
-    meals = {};
-  }
-}
-// Popup helpers (hash-based)
-function openEatPopup() {
-  window.location.hash = "#eat";
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function openMealFormPopup() {
-  window.location.hash = "#mealForm";
-}
-
-function closePopups() {
-  window.location.hash = "";
-}
-// Setup: Add (+) buttons
+/* ============================
+   POPUP #1 — “Did you eat today?”
+============================ */
 function setupAddButtons() {
-  const addButtons = document.querySelectorAll(".meal .add");
-
-  addButtons.forEach((btn) => {
+  document.querySelectorAll(".meal .add").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
 
       const row = btn.closest(".meal");
-      if (!row) return;
-
-      const label = row.querySelector(".label");
-      if (!label) return;
-
-      currentMealType = getMealTypeFromLabel(label.textContent);
+      currentMealType = row.dataset.type;
       currentMode = "add";
 
-      // update "Did you eat ___ today?"
       const title = document.getElementById("eatTitle");
-      if (title) {
-        const pretty = formatType(currentMealType);
-        title.textContent = `Did you eat ${pretty} today?`;
-      }
+      if (title) title.textContent = `Did you eat ${capitalize(currentMealType)} today?`;
 
-      openEatPopup();
+      window.location.hash = "eat";
     });
   });
 }
-// Setup: Edit / Delete buttons
+
+function setupEatPopupButtons() {
+  const noBtn = document.querySelector("#eat .pill-ghost");
+  const yesBtn = document.querySelector("#eat .pill-primary");
+
+  if (noBtn) noBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    closePopups();
+  });
+
+  if (yesBtn) yesBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    prepareMealForm();
+    window.location.hash = "mealForm";
+  });
+}
+
+/* ============================
+   POPUP #2 — ADD / EDIT MEAL FORM
+============================ */
 function setupEditDeleteButtons() {
-  const rows = document.querySelectorAll(".meal");
-
-  rows.forEach((row) => {
-    const labelEl = row.querySelector(".label");
-    if (!labelEl) return;
-
-    const type = getMealTypeFromLabel(labelEl.textContent);
-    if (!type) return;
+  document.querySelectorAll(".meal").forEach((row) => {
+    const type = row.dataset.type;
 
     const editBtn = row.querySelector(".edit-btn");
     const deleteBtn = row.querySelector(".delete-btn");
 
-    // EDIT
     if (editBtn) {
       editBtn.addEventListener("click", (e) => {
         e.preventDefault();
+        if (!meals[type]) return;
+
         currentMealType = type;
         currentMode = "edit";
         prepareMealForm();
-        openMealFormPopup();
+        window.location.hash = "mealForm";
       });
     }
 
-    // DELETE
     if (deleteBtn) {
       deleteBtn.addEventListener("click", (e) => {
         e.preventDefault();
         if (!meals[type]) return;
 
-        const ok = window.confirm("Are you sure you want to delete this meal?");
-        if (!ok) return;
+        if (!confirm("Delete this meal?")) return;
 
-        delete meals[type];
+        meals[type] = null;
         renderMeals();
       });
     }
   });
 }
-// Popup #1 buttons (Did you eat?)
-function setupEatPopupButtons() {
-  const yesBtn = document.querySelector("#eat .pill-ghost");
-  const addBtn = document.querySelector("#eat .pill-primary");
 
-  if (yesBtn) {
-    yesBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      closePopups();
-    });
-  }
-
-  if (addBtn) {
-    addBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      prepareMealForm();
-      openMealFormPopup();
-    });
-  }
-}
-// Popup #2 form (Add / Edit meal)
 function prepareMealForm() {
-  const titleEl = document.getElementById("mealFormTitle");
-  const nameInput = document.getElementById("mealName");
-  const calInput = document.getElementById("mealCalories");
+  const title = document.getElementById("mealFormTitle");
+  const name = document.getElementById("mealName");
+  const calories = document.getElementById("mealCalories");
 
-  if (!nameInput || !calInput) return;
+  if (!name || !calories) return;
 
-  const pretty = formatType(currentMealType);
-  if (titleEl) {
-    titleEl.textContent =
-      currentMode === "edit" ? `Edit ${pretty}` : `Add ${pretty}`;
-  }
+  title.textContent =
+    currentMode === "edit"
+      ? `Edit ${capitalize(currentMealType)}`
+      : `Add ${capitalize(currentMealType)}`;
 
   const existing = meals[currentMealType] || {};
-  nameInput.value = existing.name || "";
-  calInput.value =
-    existing.calories !== undefined && existing.calories !== null
-      ? existing.calories
-      : "";
+  name.value = existing.name || "";
+  calories.value = existing.calories || "";
 }
 
 function setupMealFormHandlers() {
   const form = document.getElementById("mealFormElement");
   const cancelBtn = document.getElementById("mealCancel");
 
-  if (!form) return;
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!currentMealType) return;
+      const name = document.getElementById("mealName").value.trim();
+      const calories = parseInt(document.getElementById("mealCalories").value) || 0;
 
-    const nameInput = document.getElementById("mealName");
-    const calInput = document.getElementById("mealCalories");
-
-    const name = (nameInput.value || "").trim();
-    const caloriesStr = (calInput.value || "").trim();
-
-    if (!name) {
-      alert("Please enter the meal name.");
-      return;
-    }
-
-    const calories = parseInt(caloriesStr, 10) || 0;
-
-    meals[currentMealType] = { name, calories };
-    renderMeals();
-    closePopups();
-  });
+      meals[currentMealType] = { name, calories };
+      renderMeals();
+      closePopups();
+    });
+  }
 
   if (cancelBtn) {
     cancelBtn.addEventListener("click", (e) => {
@@ -232,7 +203,17 @@ function setupMealFormHandlers() {
     });
   }
 }
-// Init
+
+/* ============================
+   CLOSE POPUPS
+============================ */
+function closePopups() {
+  window.location.hash = "";
+}
+
+/* ============================
+   INIT
+============================ */
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
