@@ -15,9 +15,7 @@ let currentMealType = null;
 let currentMode = "add";
 let selectedMealType = "breakfast";
 
-/* ============================
-   LOAD / SAVE
-============================ */
+/* LOAD / SAVE */
 function loadMeals() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -39,9 +37,7 @@ function saveMeals() {
   }
 }
 
-/* ============================
-   RENDER
-============================ */
+/* RENDER */
 function renderMeals() {
   ["breakfast", "lunch", "dinner"].forEach((type) => {
     const row = document.querySelector(`.meal[data-type="${type}"]`);
@@ -85,9 +81,7 @@ function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/* ============================
-   ADD BUTTONS
-============================ */
+/* ADD BUTTONS */
 function setupAddButtons() {
   const addBtns = document.querySelectorAll(".meal .add");
   addBtns.forEach((btn) => {
@@ -109,9 +103,7 @@ function setupAddButtons() {
   });
 }
 
-/* ============================
-   EDIT / DELETE BUTTONS
-============================ */
+/* EDIT / DELETE BUTTONS */
 function setupEditDeleteButtons() {
   document.querySelectorAll(".meal").forEach((row) => {
     const type = row.dataset.type;
@@ -144,9 +136,7 @@ function setupEditDeleteButtons() {
   });
 }
 
-/* ============================
-   POPUP 1 — Did you eat?
-============================ */
+/* POPUP 1 — Did you eat? */
 function setupEatPopupButtons() {
   const noBtn = document.querySelector("#eat .pill-ghost");
   const yesBtn = document.querySelector("#eat .pill-primary");
@@ -167,9 +157,7 @@ function setupEatPopupButtons() {
   }
 }
 
-/* ============================
-   POPUP 2 — Add/Edit Meal
-============================ */
+/* POPUP 2 — Add/Edit Meal */
 function prepareMealForm() {
   const title = document.getElementById("mealFormTitle");
   const nameInput = document.getElementById("mealName");
@@ -250,9 +238,7 @@ function setupQuickPickTarget() {
   if (label) label.textContent = "Selected: Breakfast";
 }
 
-/* ============================
-   QUICK PICK ITEMS
-============================ */
+/* QUICK PICK ITEMS */
 function setupQuickPickClicks() {
   const items = document.querySelectorAll(".food-group li");
   if (!items.length) return;
@@ -269,9 +255,7 @@ function setupQuickPickClicks() {
   });
 }
 
-/* ============================
-   INIT
-============================ */
+/* INIT */
 document.addEventListener("DOMContentLoaded", () => {
   loadMeals();
   renderMeals();
