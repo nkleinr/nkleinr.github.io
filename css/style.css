@@ -1209,6 +1209,51 @@ body.index-page .title-section h1 {
 .ft-btn-primary:hover {
   background: #1d4ed8;
 }
+/* Make the food overlays use flex when targeted /
+#eat.overlay,
+#mealForm.overlay {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#eat:target,
+#mealForm:target {
+  display: flex;
+}
+
+/ Override the workout .modal styles ONLY inside these overlays /
+#eat .modal,
+#mealForm .modal {
+  position: relative;
+  inset: auto;
+  display: block;          / <-- important: show the card /
+  width: 360px;
+  max-width: 90%;
+  height: auto;
+  overflow: visible;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 26px 22px;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.18);
+  text-align: center;
+}
+
+/ Close “X” in top-right of both popups */
+#eat .close,
+#mealForm .close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #d1d5db;
+}
+
+#eat .close:hover,
+#mealForm .close:hover {
+  color: #6b7280;
+}
 
 
 
