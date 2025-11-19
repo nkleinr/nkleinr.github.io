@@ -3,12 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
- <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
+  <title>UnlockFitness — Food Tracker</title>
 </head>
+
 <body class="page-food">
-  
-   <nav class="navbar">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="nav-left">
       <a href="index.html">
         <img src="assets/logo.png" alt="UnlockFitness logo" class="logo">
@@ -19,22 +22,46 @@
       <a href="sleep.html">Sleep Tracker</a>
       <a href="community.html">Community</a>
     </div>
+
     <div class="nav-right">
       <a href="login.html">Login</a>
       <a href="signup.html">Signup</a>
       <a href="profile.html">Profile</a>
     </div>
   </nav>
-  <!-- MAIN CARD -->
+
+  <!-- MAIN CONTENT -->
   <main class="wrap">
     <section class="card">
       <h1>FOOD TRACKER</h1>
 
+      <!-- Today’s Pills -->
       <div class="today-pill">
         <div class="tm-title">Today’s Meals</div>
         <small>🔥 Total Calories:<br><strong>0 Kcal / 2000 kcal</strong></small>
       </div>
 
+      <!-- ============================
+           SAVED DATA TABLE 
+      ============================= -->
+      <section class="data-section">
+        <h2>Saved Meals</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Meal</th>
+              <th>Name</th>
+              <th>Calories</th>
+            </tr>
+          </thead>
+          <tbody id="dataTableBody"></tbody>
+        </table>
+      </section>
+
+      <!-- ============================
+           MEAL LIST 
+      ============================= -->
       <div class="meal-list">
 
         <!-- BREAKFAST -->
@@ -83,12 +110,12 @@
     </section>
   </main>
 
-  <!-- POPUP 1  “Did you eat today?”  -->
+  <!-- POPUP 1 — Did you eat today? -->
   <div id="eat" class="overlay">
-    <a href="#" class="overlay-close" aria-label="Close"></a>
+    <a href="#" class="overlay-close"></a>
 
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eatTitle">
-      <a href="#" class="close" aria-label="Close">×</a>
+      <a href="#" class="close">×</a>
       <h2 id="eatTitle">Did you eat today?</h2>
 
       <a class="pill pill-ghost" href="#"><span>Yes, I did</span></a>
@@ -98,23 +125,23 @@
     </div>
   </div>
 
-  <!-- POPUP 2  Add/Edit Meal -->
+  <!-- POPUP 2 — Add/Edit Meal -->
   <div id="mealForm" class="overlay">
-    <a href="#" class="overlay-close" aria-label="Close"></a>
+    <a href="#" class="overlay-close"></a>
 
     <div class="modal meal-modal" role="dialog" aria-modal="true" aria-labelledby="mealFormTitle">
-      <a href="#" class="close" aria-label="Close">×</a>
+      <a href="#" class="close">×</a>
       <h2 id="mealFormTitle">Add Meal</h2>
 
       <form id="mealFormElement">
         <label class="modal-field">
           <span>Meal name</span>
-          <input type="text" id="mealName" autocomplete="off" required />
+          <input type="text" id="mealName" required />
         </label>
 
         <label class="modal-field">
           <span>Calories (kcal)</span>
-          <input type="number" id="mealCalories" min="0" step="1" required />
+          <input type="number" id="mealCalories" min="0" required />
         </label>
 
         <div class="modal-actions">
@@ -124,30 +151,21 @@
       </form>
     </div>
   </div>
-<!-- AD BANNER -->
-<section class="ad-banner promo-banner">
-  <div class="promo-content">
-    <div class="promo-text">
-      <h2>🔥 Buy generic protein powder!</h2>
-      <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
+
+  <!-- AD BANNER -->
+  <section class="ad-banner promo-banner">
+    <div class="promo-content">
+      <div class="promo-text">
+        <h2>🔥 Buy generic protein powder!</h2>
+        <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
+      </div>
+      <img src="assets/gym-promo.png" alt="SAMPLE AD" class="promo-img">
     </div>
-    <img src="assets/gym-promo.png" alt="SAMPLE AD" class="promo-img">
-  </div>
-</section>
-<script src="js/index-community.js"></script>
-  
-<script src="js/food.js"></script>
+  </section>
+
+  <!-- SCRIPTS -->
+  <script src="js/index-community.js"></script>
+  <script src="js/food.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
