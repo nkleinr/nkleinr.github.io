@@ -166,8 +166,7 @@ h1, h2, h3, h4, h5 {
 }
 
 /* =========================================
-   AD BANNER
-========================================= */
+   AD BANNER */
 .ad-banner {
   background: #e6e6e6;
   padding: 30px 20px;
@@ -573,10 +572,6 @@ select {
 /* =========================================
    FOOD TRACKER
 ========================================= */
-/********************************************
-    FOOD TRACKER — FULL STYLE (MATCHED)
-********************************************/
-
 /* Page wrapper */
 .food-wrap {
     max-width: 900px;
@@ -606,9 +601,7 @@ select {
     color: #6b7280;
 }
 
-/* =============================
-   TODAY’S MEALS SUMMARY
-============================= */
+/* TODAY’S MEALS SUMMARY */
 .today-pill {
     text-align: center;
     margin-bottom: 26px;
@@ -628,9 +621,7 @@ select {
     color: #374151;
 }
 
-/* =============================
-   MEAL LIST
-============================= */
+/* MEAL LIST */
 .meal-list {
     max-width: 900px;
     margin: 0 auto;
@@ -661,9 +652,7 @@ select {
     flex: 1;
 }
 
-/* =============================
-   BUTTON GROUP
-============================= */
+/*  BUTTON GROUP */
 .meal-actions {
     display: flex;
     align-items: center;
@@ -718,9 +707,7 @@ select {
 }
 
 
-/* =============================
-   OVERLAY POPUPS
-============================= */
+/* OVERLAY POPUPS */
 .overlay {
     position: fixed;
     inset: 0;
@@ -769,9 +756,7 @@ select {
     color: #888;
 }
 
-/* =============================
-   POPUP 1 — Did You Eat Today?
-============================= */
+/* POPUP 1 — Did You Eat Today? */
 .modal h2 {
     font-size: 22px;
     font-weight: 700;
@@ -799,9 +784,7 @@ select {
     color: #ffffff;
 }
 
-/* =============================
-   POPUP 2 — Add/Edit Meal Form
-============================= */
+/* POPUP 2 — Add/Edit Meal Form */
 .modal-field {
     text-align: left;
     margin-bottom: 14px;
@@ -1226,6 +1209,7 @@ body.index-page .title-section h1 {
 .ft-btn-primary:hover {
   background: #1d4ed8;
 }
+
 
 
 
