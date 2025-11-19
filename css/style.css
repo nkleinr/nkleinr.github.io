@@ -1210,3 +1210,105 @@ body.index-page .title-section h1 {
   background: #1d4ed8;
 }
 
+/* ============================
+   FOOD TRACKER POPUPS FIX
+   (place at very bottom of style.css)
+============================ */
+
+/* Base overlay for food tracker popups */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+/* When the hash is #eat or #mealForm, show the overlay */
+#eat:target,
+#mealForm:target {
+  display: flex;
+}
+
+/* Override workout .modal styles ONLY inside food overlays */
+#eat .modal,
+#mealForm .modal {
+  position: relative;      /* not full-screen */
+  inset: auto;
+  margin: 0;
+  display: block;          /* <- IMPORTANT: show the card */
+  max-width: 360px;
+  width: 90%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+  text-align: center;
+}
+
+/* Close “X” in top-right of both popups */
+#eat .close,
+#mealForm .close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #6b7280;
+}
+
+/* “Did you eat today?” buttons */
+.pill {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin-top: 12px;
+  text-decoration: none;
+}
+
+.pill-ghost {
+  background: #ffe4f3;
+  border: 1px solid #f9c7e4;
+  color: #333;
+}
+
+.pill-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.pill-primary .apple {
+  margin-right: 8px;
+}
+
+/* Add/Edit Meal form fields inside #mealForm */
+#mealFormElement .modal-field {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+#mealFormElement .modal-field span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+#mealFormElement input[type="text"],
+#mealFormElement input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+#mealFormElement .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
