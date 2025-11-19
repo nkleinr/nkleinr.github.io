@@ -1212,7 +1212,7 @@ body.index-page .title-section h1 {
 
 
 
-/* Base overlay for food tracker popups */
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -1223,19 +1223,18 @@ body.index-page .title-section h1 {
   z-index: 3000;
 }
 
-/* When the hash is #eat or #mealForm, show the overlay */
+
 #eat:target,
 #mealForm:target {
   display: flex;
 }
 
-/* Override workout .modal styles ONLY inside food overlays */
 #eat .modal,
 #mealForm .modal {
-  position: relative;      /* not full-screen */
+  position: relative;      
   inset: auto;
   margin: 0;
-  display: block;          /* <- IMPORTANT: show the card */
+  display: block;          
   max-width: 360px;
   width: 90%;
   background: #ffffff;
@@ -1245,7 +1244,7 @@ body.index-page .title-section h1 {
   text-align: center;
 }
 
-/* Close “X” in top-right of both popups */
+
 #eat .close,
 #mealForm .close {
   position: absolute;
