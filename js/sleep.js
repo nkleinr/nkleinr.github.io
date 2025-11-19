@@ -174,7 +174,12 @@ function renderTable() {
 function renderChartAndStats() {
   const byDate = new Map(entries.map(e => [e.date, e]));
 
-  const base = form.date ? new Date(form.date) : new Date();
+const base = new Date();  
+base.setHours(0,0,0,0);  // FORCE local date, prevents UTC shift
+
+const localDate = new Date(form.date + "T00:00:00");
+entry.date = ymd(localDate);
+
   const last7 = [];
 
   for (let i = 6; i >= 0; i--) {
@@ -231,3 +236,4 @@ function renderChartAndStats() {
 renderTable();
 renderChartAndStats();
 updateFeedback();
+
