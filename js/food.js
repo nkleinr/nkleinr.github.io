@@ -1,9 +1,7 @@
 const DAILY_GOAL = 2000;
 let meals = {};
-
-// which meal user clicked (+)
-let currentMealType = null;
-
+let currentMealType = null;  // "breakfast" "lunch" "dinner"
+let currentMode = "add";     // "add" "edit"
 function getMealTypeFromLabel(labelText) {
   const lower = labelText.toLowerCase();
   if (lower.includes("breakfast")) return "breakfast";
@@ -16,10 +14,9 @@ function getMealTypeFromLabel(labelText) {
 function findMealRow(type) {
   const rows = document.querySelectorAll(".meal");
   for (const row of rows) {
-    const label = row.querySelector(".label");
-    if (!label) continue;
-
-    const text = label.textContent.toLowerCase();
+    const l = row.querySelector(".label");
+    if (!l) continue;
+    const text = l.textContent.toLowerCase();
     if (type === "breakfast" && text.includes("breakfast")) return row;
     if (type === "lunch" && text.includes("lunch")) return row;
     if (type === "dinner" && text.includes("dinner")) return row;
@@ -27,7 +24,6 @@ function findMealRow(type) {
   return null;
 }
 
-// Total Calories text and meal descriptions
 function renderMeals() {
   meals = meals || {};
 
@@ -35,13 +31,7 @@ function renderMeals() {
     const row = findMealRow(type);
     if (!row) return;
 
-    let details = row.querySelector(".details");
-    if (!details) {
-      details = document.createElement("div");
-      details.className = "details";
-      row.appendChild(details);
-    }
-
+    const details = row.querySelector(".details");
     const data = meals[type];
 
     if (data) {
@@ -53,7 +43,7 @@ function renderMeals() {
     }
   });
 
-  // Calculate total calories
+  // Calculate totals
   const total = Object.values(meals).reduce((sum, m) => {
     if (!m) return sum;
     return sum + (m.calories || 0);
@@ -65,42 +55,39 @@ function renderMeals() {
   }
 }
 
-// Save to localStorage
+/* Storage */
+
 function saveMeals() {
   localStorage.setItem("uf_meals", JSON.stringify(meals));
 }
 
-// Load from localStorage
 function loadMeals() {
   const saved = localStorage.getItem("uf_meals");
   if (!saved) return;
-
   try {
     meals = JSON.parse(saved) || {};
-  } catch (e) {
+  } catch {
     meals = {};
   }
 }
 
-// "+" buttons (Breakfast / Lunch / Dinner)
+/* Add button (+) “Did you eat today?” popup */
+
 function setupAddButtons() {
-  const addButtons = document.querySelectorAll(".add");
+  const addButtons = document.querySelectorAll(".circle-btn.add");
   const title = document.getElementById("eatTitle");
 
   addButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const labelText =
-        btn.getAttribute("aria-label") || btn.textContent || "Add Meal";
-
+        btn.getAttribute("aria-label") || btn.textContent || "Add meal";
       currentMealType = getMealTypeFromLabel(labelText);
 
-      // Update popup title to show which meal
       if (title && currentMealType !== "meal") {
-        const niceName =
+        const pretty =
           currentMealType.charAt(0).toUpperCase() +
           currentMealType.slice(1);
-
-        title.textContent = `Did you eat ${niceName} today?`;
+        title.textContent = `Did you eat ${pretty} today?`;
       } else if (title) {
         title.textContent = "Did you eat today?";
       }
@@ -108,109 +95,147 @@ function setupAddButtons() {
   });
 }
 
-// Buttons inside the popup
+/* Popup #1 buttons */
+
 function setupPopupButtons() {
   const yesButton = document.querySelector(".pill.pill-ghost");
   const addMealButton = document.querySelector(".pill.pill-primary");
 
-  // "Yes, I did"
+  // "Yes, I did" 
   if (yesButton) {
     yesButton.addEventListener("click", (e) => {
       e.preventDefault();
-      window.location.hash = "";
+      window.location.hash = ""; // close overlay
     });
   }
 
   // "Add a meal"
   if (addMealButton) {
-    addMealButton.addEventListener("click", (e) => {
+    addMealButton.addEventListener("click", () => {
+      currentMode = "add";
+      prepareMealForm();
+    });
+  }
+}
+
+/* Edit + Delete buttons on each row */
+
+function setupEditDeleteButtons() {
+  const rows = document.querySelectorAll(".meal");
+
+  rows.forEach((row) => {
+    const labelEl = row.querySelector(".label");
+    const editBtn = row.querySelector(".edit-btn");
+    const deleteBtn = row.querySelector(".delete-btn");
+
+    if (!labelEl) return;
+
+    const type = getMealTypeFromLabel(labelEl.textContent);
+
+    // EDIT
+    if (editBtn) {
+      editBtn.addEventListener("click", () => {
+        currentMealType = type;
+        currentMode = "edit";
+        prepareMealForm();
+        window.location.hash = "#mealForm";
+      });
+    }
+
+    // DELETE
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", () => {
+        if (!meals[type]) return;
+        const sure = confirm("Delete this meal?");
+        if (!sure) return;
+        delete meals[type];
+        saveMeals();
+        renderMeals();
+      });
+    }
+  });
+}
+
+/* Meal Form (popup #2) */
+
+function prepareMealForm() {
+  const title = document.getElementById("mealFormTitle");
+  const nameInput = document.getElementById("mealName");
+  const calInput = document.getElementById("mealCalories");
+
+  if (!currentMealType) currentMealType = "meal";
+
+let pretty;
+
+if (currentMealType === "meal") {
+  pretty = "Meal";
+} else {
+  pretty = currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1);
+}
+    
+  if (title) {
+    title.textContent =
+      currentMode === "edit" ? `Edit ${pretty}` : `Add ${pretty}`;
+  }
+
+  const existing = meals[currentMealType] || {};
+  if (currentMode === "edit" && existing.name) {
+    nameInput.value = existing.name;
+    calInput.value = existing.calories != null ? existing.calories : "";
+  } else {
+    nameInput.value = "";
+    calInput.value = "";
+  }
+}
+
+/* Handle submit + cancel */
+
+function setupMealFormHandlers() {
+  const form = document.getElementById("mealFormElement");
+  const cancel = document.getElementById("mealCancel");
+
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!currentMealType) return;
+
+    const name = document.getElementById("mealName").value.trim();
+    const calStr = document.getElementById("mealCalories").value.trim();
+    const calories = parseInt(calStr, 10);
+
+    if (!name) {
+      alert("Please enter the meal name.");
+      return;
+    }
+    if (isNaN(calories) || calories < 0) {
+      alert("Please enter a valid calorie amount.");
+      return;
+    }
+
+    meals[currentMealType] = { name, calories };
+    saveMeals();
+    renderMeals();
+
+    // Close modal
+    window.location.hash = "";
+  });
+
+  if (cancel) {
+    cancel.addEventListener("click", (e) => {
       e.preventDefault();
-
-      if (!currentMealType) currentMealType = "meal";
-
-      const prettyName =
-        currentMealType === "meal" ? "this meal" : currentMealType;
-
-      const existing = meals[currentMealType] || {};
-
-      const name = prompt(
-        `What did you eat for ${prettyName}?`,
-        existing.name || ""
-      );
-      if (!name) return;
-
-      const calStr = prompt(
-        "How many calories (kcal)?",
-        existing.calories != null ? existing.calories : ""
-      );
-      const calories = parseInt(calStr, 10);
-
-      if (isNaN(calories) || calories <= 0) {
-        alert("Please enter a valid number of calories.");
-        return;
-      }
-
-      meals[currentMealType] = { name, calories };
-      saveMeals();
-      renderMeals();
-
       window.location.hash = "";
     });
   }
 }
 
-// Delete a meal when clicking on the details text
-function setupDeleteOnDetails() {
-  document.addEventListener("click", (e) => {
-    const details = e.target;
-    if (!details.classList.contains("details")) return;
+/* Initialize */
 
-    const row = details.closest(".meal");
-    if (!row) return;
-
-    const label = row.querySelector(".label");
-    if (!label) return;
-
-    const type = getMealTypeFromLabel(label.textContent);
-    if (!meals[type]) return;
-
-    const ok = confirm("Do you want to delete this meal?");
-    if (!ok) return;
-
-    delete meals[type];
-    saveMeals();
-    renderMeals();
-  });
-}
-
-function resetMeals() {
-  console.log(" resetMeals() called");
-
-  const ok = confirm("Clear all today's meals and reset calories to 0?");
-  if (!ok) return;
-
-  meals = {};
-  localStorage.removeItem("uf_meals");
-  renderMeals();
-}
-
-// Initialize on DOM ready
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🍽 Food tracker JS loaded");
-
   loadMeals();
   renderMeals();
   setupAddButtons();
   setupPopupButtons();
-  setupDeleteOnDetails();
-
-  const resetBtn = document.getElementById("resetDay");
-  console.log("resetBtn is:", resetBtn);
-
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      console.log(" Reset button clicked");
-      resetMeals();
-    });
-  }
+  setupEditDeleteButtons();
+  setupMealFormHandlers();
 });
