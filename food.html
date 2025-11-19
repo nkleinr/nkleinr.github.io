@@ -102,4 +102,95 @@
         <div class="food-group">
           <h3>🍳 Breakfast Options</h3>
           <ul>
-            <li data-nam
+            <li data-name="Eggs" data-cal="150">Eggs – 150 kcal</li>
+            <li data-name="Oatmeal" data-cal="120">Oatmeal – 120 kcal</li>
+            <li data-name="Toast" data-cal="80">Toast – 80 kcal</li>
+            <li data-name="Yogurt" data-cal="100">Yogurt – 100 kcal</li>
+          </ul>
+        </div>
+
+        <!-- LUNCH -->
+        <div class="food-group">
+          <h3>🍗 Lunch Options</h3>
+          <ul>
+            <li data-name="Chicken" data-cal="300">Chicken – 300 kcal</li>
+            <li data-name="Sandwich" data-cal="350">Sandwich – 350 kcal</li>
+            <li data-name="Rice & Veggies" data-cal="250">Rice & Veggies – 250 kcal</li>
+            <li data-name="Salad" data-cal="180">Salad – 180 kcal</li>
+          </ul>
+        </div>
+
+        <!-- DINNER -->
+        <div class="food-group">
+          <h3>🥗 Dinner Options</h3>
+          <ul>
+            <li data-name="Pasta" data-cal="400">Pasta – 400 kcal</li>
+            <li data-name="Steak" data-cal="500">Steak – 500 kcal</li>
+            <li data-name="Soup" data-cal="150">Soup – 150 kcal</li>
+            <li data-name="Grilled Fish" data-cal="320">Grilled Fish – 320 kcal</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- POPUP 1 -->
+  <div id="eat" class="overlay">
+    <a href="#" class="overlay-close"></a>
+
+    <div class="modal">
+      <a href="#" class="close">×</a>
+      <h2 id="eatTitle">Did you eat today?</h2>
+
+      <a class="pill pill-ghost" href="#">Yes, I did</a>
+      <a class="pill pill-primary" href="#mealForm"><span>🍎</span> Add a meal</a>
+    </div>
+  </div>
+
+
+  <!-- POPUP 2 -->
+  <div id="mealForm" class="overlay">
+    <a href="#" class="overlay-close"></a>
+
+    <div class="modal meal-modal">
+      <a href="#" class="close">×</a>
+      <h2 id="mealFormTitle">Add Meal</h2>
+
+      <form id="mealFormElement">
+        <label class="modal-field">
+          <span>Meal name</span>
+          <input type="text" id="mealName" required />
+        </label>
+
+        <label class="modal-field">
+          <span>Calories (kcal)</span>
+          <input type="number" id="mealCalories" min="0" required />
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="mealCancel">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- AD -->
+  <section class="ad-banner promo-banner">
+    <div class="promo-content">
+      <div class="promo-text">
+        <h2>🔥 Buy generic protein powder!</h2>
+        <p>Build muscle, burn fat, and get your protein in with Generic Protein.</p>
+      </div>
+      <img src="assets/gym-promo.png" class="promo-img">
+    </div>
+  </section>
+
+  <script src="js/food.js"></script>
+
+</body>
+</html>
