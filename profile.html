@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>UnlockFitness — Profile</title>
 
-  <!-- Use global stylesheet instead of profile.css -->
+  <!-- Global stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -32,90 +32,99 @@
   </div>
 </nav>
 
+<main class="container profile-container">
 
+  <!-- Profile header card -->
+  <section class="header-card" aria-labelledby="profile-heading">
+    <img class="profile-pic" src="assets/default-profile.png" alt="Profile picture">
+    <div class="profile-info">
+      <h1 id="profile-heading" class="username">Jamie Parker</h1>
+      <p class="bio">Fitness enthusiast. Strength + sleep + nutrition focus.</p>
 
-  <main class="container">
-
-    <!-- Profile header -->
-    <section class="header-card" aria-labelledby="profile-heading">
-      <img class="profile-pic" src="assets/default-profile.png" alt="Profile picture">
-      <div class="profile-info">
-        <h1 id="profile-heading" class="username">Jamie Parker</h1>
-        <p class="bio">Fitness enthusiast. Strength + sleep + nutrition focus.</p>
-
-        <div class="stats" aria-hidden="true">
-          <div class="stat"><div class="stat-value">128</div><div class="stat-label">Workouts</div></div>
-          <div class="stat"><div class="stat-value">42</div><div class="stat-label">Badges</div></div>
-          <div class="stat"><div class="stat-value">230</div><div class="stat-label">Followers</div></div>
+      <div class="stats" aria-hidden="true">
+        <div class="stat">
+          <div class="stat-value">128</div>
+          <div class="stat-label">Workouts</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">42</div>
+          <div class="stat-label">Badges</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">230</div>
+          <div class="stat-label">Followers</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Share to community -->
-    <section class="share-section" aria-labelledby="share-heading">
-      <h3 id="share-heading">Share with the community</h3>
-      <form id="share-form">
-        <textarea name="text" placeholder="Write something about your workout or meal..." required rows="3"></textarea>
+  <!-- Share to community card -->
+  <section class="share-section" aria-labelledby="share-heading">
+    <h3 id="share-heading">Share with the community</h3>
+    <form id="share-form">
+      <textarea name="text"
+                placeholder="Write something about your workout or meal..."
+                required
+                rows="3"></textarea>
 
-        <div class="share-controls">
-          <button type="submit">Share to Community</button>
-        </div>
-
-        <p id="share-error" class="error" aria-live="polite"></p>
-      </form>
-    </section>
-
-    <!-- Badges banner -->
-    <section class="badges-section" aria-labelledby="badges-heading">
-      <h3 id="badges-heading">Badges</h3>
-      <div class="badges-row" aria-hidden="true">
-        <div class="badge" title="Workout Warrior: Completed 7 consecutive workout days.">
-          <img src="https://img.icons8.com/ios-filled/50/000000/dumbbell.png" alt="">
-        </div>
-        <div class="badge" title="Healthy Eater: Tracked meals for 14 days with balanced nutrition.">
-          <img src="https://img.icons8.com/ios-filled/50/000000/apple.png" alt="">
-        </div>
-        <div class="badge" title="Sleep Master: Kept 8+ hours of sleep for 7 nights.">
-          <img src="https://img.icons8.com/ios-filled/50/000000/sleeping-in-bed.png" alt="">
-        </div>
-        <div class="badge" title="Consistency King: Completed all daily challenges for a month.">
-          <img src="https://img.icons8.com/ios-filled/50/000000/trophy.png" alt="">
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent friend posts preview -->
-    <section class="posts-preview" aria-labelledby="preview-heading">
-      <h3 id="preview-heading">Recent posts</h3>
-
-      <div class="post-preview">
-        <img class="post-avatar" src="assets/default-profile.png" alt="">
-        <div class="post-body">
-          <h4>Ashley M.</h4>
-          <p>Morning HIIT finished! Switched to a protein-heavy breakfast and felt stronger.</p>
-        </div>
+      <div class="share-controls">
+        <button type="submit" class="btn btn-primary">Share to Community</button>
       </div>
 
-      <div class="post-preview">
-        <img class="post-avatar" src="assets/default-profile.png" alt="">
-        <div class="post-body">
-          <h4>Jordan K.</h4>
-          <p>Five nights of consistent sleep with a wind-down routine. Better energy today.</p>
-        </div>
+      <p id="share-error" class="error" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- Badges card -->
+  <section class="badges-section" aria-labelledby="badges-heading">
+    <h3 id="badges-heading">Badges</h3>
+    <div class="badges-row" aria-hidden="true">
+      <div class="badge" title="Workout Warrior: Completed 7 consecutive workout days.">
+        <img src="https://img.icons8.com/ios-filled/50/000000/dumbbell.png" alt="">
       </div>
-
-      <div class="post-preview">
-        <img class="post-avatar" src="assets/default-profile.png" alt="">
-        <div class="post-body">
-          <h4>Riley P.</h4>
-          <p>Meal prep success: chicken, roasted veg, quinoa. Macros on point.</p>
-        </div>
+      <div class="badge" title="Healthy Eater: Tracked meals for 14 days with balanced nutrition.">
+        <img src="https://img.icons8.com/ios-filled/50/000000/apple.png" alt="">
       </div>
+      <div class="badge" title="Sleep Master: Kept 8+ hours of sleep for 7 nights.">
+        <img src="https://img.icons8.com/ios-filled/50/000000/sleeping-in-bed.png" alt="">
+      </div>
+      <div class="badge" title="Consistency King: Completed all daily challenges for a month.">
+        <img src="https://img.icons8.com/ios-filled/50/000000/trophy.png" alt="">
+      </div>
+    </div>
+  </section>
 
-    </section>
-  </main>
+  <!-- Recent posts card -->
+  <section class="posts-preview" aria-labelledby="preview-heading">
+    <h3 id="preview-heading">Recent posts</h3>
 
-  <!-- Profile JS -->
-  <script src="js/profile.js"></script>
+    <div class="post-preview">
+      <img class="post-avatar" src="assets/default-profile.png" alt="">
+      <div class="post-body">
+        <h4>Ashley M.</h4>
+        <p>Morning HIIT finished! Swapped cereal for an egg-and-spinach breakfast — strong start.</p>
+      </div>
+    </div>
+
+    <div class="post-preview">
+      <img class="post-avatar" src="assets/default-profile.png" alt="">
+      <div class="post-body">
+        <h4>Jordan K.</h4>
+        <p>Five nights of consistent sleep with a wind-down routine. Better energy today.</p>
+      </div>
+    </div>
+
+    <div class="post-preview">
+      <img class="post-avatar" src="assets/default-profile.png" alt="">
+      <div class="post-body">
+        <h4>Riley P.</h4>
+        <p>Meal prep success: chicken, roasted veg, quinoa. Macros on point.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Profile JS -->
+<script src="js/profile.js"></script>
 </body>
 </html>
