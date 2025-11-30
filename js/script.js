@@ -1,6 +1,4 @@
-/***************************************************
- * LOCAL STORAGE HELPERS
- ***************************************************/
+
 const STORAGE_KEY = "workouts";
 
 function getWorkouts() {
@@ -17,9 +15,7 @@ function saveWorkouts(list) {
 
 
 
-/***************************************************
- * DOM ELEMENTS
- ***************************************************/
+
 const modal = document.getElementById("addWorkoutModal");
 const overlay = modal.querySelector(".modal-overlay");
 
@@ -44,9 +40,7 @@ let deleteIndex = null;
 
 
 
-/***************************************************
- * MODAL HANDLERS
- ***************************************************/
+
 function openAddModal() {
   editingId = null;
   form.reset();
@@ -99,9 +93,7 @@ window.addEventListener("keydown", e => {
 
 
 
-/***************************************************
- * ADD EXERCISE ROW
- ***************************************************/
+
 function addExerciseRow(prefill = {}) {
   const row = document.createElement("div");
   row.className = "ex-row";
@@ -138,9 +130,6 @@ addExerciseBtn.addEventListener("click", () => addExerciseRow());
 
 
 
-/***************************************************
- * SAVE WORKOUT (ADD OR EDIT)
- ***************************************************/
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -190,9 +179,6 @@ form.addEventListener("submit", e => {
 
 
 
-/***************************************************
- * TOAST MESSAGES
- ***************************************************/
 let toastTimer = null;
 
 function toast(message, isError = false) {
@@ -207,9 +193,7 @@ function toast(message, isError = false) {
 
 
 
-/***************************************************
- * RENDER WORKOUT LIST
- ***************************************************/
+
 function renderWorkouts() {
   const workouts = getWorkouts();
   workoutList.innerHTML = "";
@@ -237,9 +221,7 @@ renderWorkouts();
 
 
 
-/***************************************************
- * DELETE WORKOUT + CONFIRM POPUP
- ***************************************************/
+
 document.addEventListener("click", e => {
   if (e.target.classList.contains("delete-workout-btn")) {
     deleteIndex = Number(e.target.dataset.index);
@@ -289,11 +271,12 @@ function autoAddTopWorkout() {
   renderWorkouts();
   toast("Top Ranked Workout added!");
 
-  // Prevent adding again if user reloads page
+
   window.history.replaceState({}, "", "workout.html");
 }
 
 autoAddTopWorkout();
+
 
 
 
