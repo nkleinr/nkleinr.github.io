@@ -1033,13 +1033,13 @@ html, body {
 }
 
 .video-wrapper {
-  max-width: 1000px;      /* how wide you want the video area */
-  margin: 0 auto;         /* centers the wrapper on the page */
+  max-width: 1000px;      
+  margin: 0 auto;         
 }
 
 .video-wrapper iframe {
-  width: 100%;            /* fills the wrapper */
-  aspect-ratio: 16 / 9;   /* keeps proper video shape */
+  width: 100%;            
+  aspect-ratio: 16 / 9;  
   display: block;
   border: 0;
 }
@@ -1072,7 +1072,7 @@ html, body {
   margin-right: auto;
   display: block;
 }
-/* SUPER OVERRIDE — HERO TITLE */
+
 body.index-page .title-section h1 {
   font-size: 64px !important;
   font-weight: 900 !important;
@@ -1083,8 +1083,7 @@ body.index-page .title-section h1 {
   margin-bottom: 10px !important;
   text-shadow: 0 4px 12px rgba(0,0,0,0.18) !important;
 }
-/* AD PROMO BANNER — custom design */
-/* CENTER AD BANNER CONTENT */
+
 .promo-banner {
   display: flex;
   justify-content: center;
@@ -1119,7 +1118,7 @@ body.index-page .title-section h1 {
   max-width: 350px;
   width: 100%;
 }
-/* FOOD TRACKER (unique classes) */
+
 
 .ft-wrap {
   max-width: 900px;
@@ -1696,5 +1695,6 @@ body.index-page .title-section h1 {
   background: #e7f0ff;
   transform: scale(1.03);
 }
+
 
 
